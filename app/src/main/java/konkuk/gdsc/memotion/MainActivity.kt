@@ -1,11 +1,13 @@
 package konkuk.gdsc.memotion
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import konkuk.gdsc.memotion.databinding.ActivityMainBinding
+import konkuk.gdsc.memotion.ui.diary.WritingDiaryActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,6 +23,11 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.findFragmentById(R.id.fcv_main_nav_host) as NavHostFragment
             val navController: NavController = navHostFragment.navController
             bnvMain.setupWithNavController(navController)
+
+            this.ivMainPlusDiary.setOnClickListener {
+                val intent = Intent(this@MainActivity, WritingDiaryActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 }
