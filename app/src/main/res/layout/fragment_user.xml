@@ -50,7 +50,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="Notices"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="Notices"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
