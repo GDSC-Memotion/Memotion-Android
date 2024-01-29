@@ -89,7 +89,7 @@ class UserFragment : Fragment() {
             requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(requireActivity(), AlertReceiver::class.java)
         val pendingIntent =
-            PendingIntent.getBroadcast(requireActivity(), 1, intent, PendingIntent.FLAG_IMMUTABLE)
+            PendingIntent.getBroadcast(requireContext(), 1, intent, PendingIntent.FLAG_IMMUTABLE)
 
         alarmManager.cancel(pendingIntent)
     }
