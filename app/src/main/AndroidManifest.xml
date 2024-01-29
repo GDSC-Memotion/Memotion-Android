@@ -18,9 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Memotion"
         tools:targetApi="31">
-
         <activity
-            android:name=".ui.diary.WritingDiaryActivity"
+            android:name=".ui.diary.detail.DiaryDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".ui.diary.create.WritingDiaryActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
 
@@ -42,7 +45,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
