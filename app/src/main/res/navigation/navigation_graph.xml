@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/diary">
+
+    <fragment
+        android:id="@+id/diary"
+        android:name="konkuk.gdsc.memotion.ui.diary.DiaryFragment"
+        android:label="fragment_diary"
+        tools:layout="@layout/fragment_diary" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/user"
+        android:name="konkuk.gdsc.memotion.ui.user.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" >
+    </fragment>
+
+</navigation>
