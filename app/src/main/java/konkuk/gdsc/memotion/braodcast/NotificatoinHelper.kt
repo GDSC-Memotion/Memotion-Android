@@ -10,7 +10,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import konkuk.gdsc.memotion.R
-import konkuk.gdsc.memotion.ui.diary.WritingDiaryActivity
+import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryActivity
 
 class NotificationHelper(private val context: Context) : ContextWrapper(context) {
 
@@ -58,6 +58,5 @@ class NotificationHelper(private val context: Context) : ContextWrapper(context)
     companion object {
         const val NOTIFICATION_ID = 3
         const val CHANNEL_ID = "시간 알림 설정"
-        const val INTENT_TIME = "time"
     }
 }
