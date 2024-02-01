@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="diaryContent"
+            type="konkuk.gdsc.memotion.data.DiarySimple" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp">
+
+        <View
+            android:id="@+id/v_second"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="#A5A5A5"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/v_dot"
+            app:layout_constraintStart_toStartOf="@id/v_dot"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/v_first"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="#A5A5A5"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/v_dot"
+            app:layout_constraintStart_toStartOf="@id/v_dot"
+            app:layout_constraintTop_toTopOf="@id/v_dot" />
+
+        <View
+            android:id="@+id/v_dot"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#FFD220"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_item_diary_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@{diaryContent.date}"
+            android:textColor="#FFD220"
+            app:layout_constraintBottom_toBottomOf="@id/v_dot"
+            app:layout_constraintStart_toEndOf="@id/v_dot"
+            app:layout_constraintTop_toTopOf="@id/v_dot" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#E9798D"
+            android:orientation="horizontal"
+            android:weightSum="4"
+            app:layout_constraintBottom_toBottomOf="@id/cl_item_diary"
+            app:layout_constraintEnd_toEndOf="@id/cl_item_diary"
+            app:layout_constraintStart_toStartOf="@id/cl_item_diary"
+            app:layout_constraintTop_toTopOf="@id/cl_item_diary">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="3" />
+
+            <LinearLayout
+                android:id="@+id/ll_item_diary_trash"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/icon_trash_white" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_item_diary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingVertical="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_item_diary_date"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_diary_date">
+
+            <ImageView
+                android:id="@+id/iv_item_diary_emotion"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_item_diary_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:text="@{diaryContent.content}"
+                app:layout_constraintBottom_toBottomOf="@id/iv_item_diary_emotion"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_item_diary_emotion"
+                app:layout_constraintTop_toTopOf="@id/iv_item_diary_emotion" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:src="@drawable/icon_bell"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_item_diary_emotion" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

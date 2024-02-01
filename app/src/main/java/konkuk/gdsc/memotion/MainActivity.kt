@@ -7,7 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import konkuk.gdsc.memotion.databinding.ActivityMainBinding
-import konkuk.gdsc.memotion.ui.diary.WritingDiaryActivity
+import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryActivity
 
 class MainActivity : AppCompatActivity() {
 
