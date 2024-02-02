@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             val navController: NavController = navHostFragment.navController
             bnvMain.setupWithNavController(navController)
 
-            this.ivMainPlusDiary.setOnClickListener {
+            ivMainPlusDiary.setOnClickListener {
                 val intent = Intent(this@MainActivity, WritingDiaryActivity::class.java)
                 startActivity(intent)
             }
