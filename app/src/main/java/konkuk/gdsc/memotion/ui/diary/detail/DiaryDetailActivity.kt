@@ -61,7 +61,7 @@ class DiaryDetailActivity : AppCompatActivity() {
             )
 
             tvDiaryDetailEmotion.text = titleEmotion?.emotion.toString()
-
+            lpiDiaryDetailPercentage.setProgressCompat((data.emotions[0].percentage * 100).toInt(), true)
             tvDiaryDetailPercentageNumber.text = titleEmotion?.percentage.toString()
 
             rvDiaryDetailEmotionList.adapter = EmotionAdapter(data.emotions)

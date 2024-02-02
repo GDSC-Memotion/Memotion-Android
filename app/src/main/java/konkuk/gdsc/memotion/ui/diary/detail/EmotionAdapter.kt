@@ -3,6 +3,9 @@ package konkuk.gdsc.memotion.ui.diary.detail
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.progressindicator.BaseProgressIndicator
+import com.google.android.material.progressindicator.LinearProgressIndicator
+import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.data.EmotionResult
 import konkuk.gdsc.memotion.databinding.ItemEmotionPercentageBinding
 
@@ -17,6 +20,10 @@ class EmotionAdapter(
             binding.apply {
                 tvItemEmotionTitle.text = item.emotion.toString()
                 tvItemEmotionPercentageNumber.text = String.format("%.2f", item.percentage) + "%"
+
+//                lpiItemEmotionPercentage. ()
+                lpiItemEmotionPercentage.setProgressCompat((item.percentage * 100).toInt(), true)
+
             }
         }
     }
