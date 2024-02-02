@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="#80555555"
     android:gravity="center"
+    android:id="@+id/ll_emotion_check_background"
     tools:context=".ui.diary.dialog.FragmentEmotionCheck">
 
     <androidx.cardview.widget.CardView
@@ -52,6 +53,7 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/btn_emotion_check_no"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -67,6 +69,7 @@
                     android:background="#A5A5A5" />
 
                 <Button
+                    android:id="@+id/btn_emotion_check_yes"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

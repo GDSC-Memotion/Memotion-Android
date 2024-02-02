@@ -12,7 +12,7 @@ import androidx.core.app.TaskStackBuilder
 import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryActivity
 
-class NotificationHelper(private val context: Context) : ContextWrapper(context) {
+class NotificationHelper(private val context: Context) {
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -34,7 +34,7 @@ class NotificationHelper(private val context: Context) : ContextWrapper(context)
         notificationManager.createNotificationChannel(channel)              // notificaiton channel 생성
     }
 
-    fun getManager() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    fun getManager() = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     fun getNotificationChannel(): NotificationCompat.Builder {
         val resultIntent = Intent(context, WritingDiaryActivity::class.java)
