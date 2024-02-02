@@ -9,9 +9,14 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.activity.result.contract.ActivityResultContracts.PickMultipleVisualMedia
 import com.bumptech.glide.Glide
+import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.data.Weather
 import konkuk.gdsc.memotion.data.DiaryWriting
 import konkuk.gdsc.memotion.databinding.ActivityWritingDiaryBinding
+import konkuk.gdsc.memotion.databinding.FragmentLoadingBinding
+import konkuk.gdsc.memotion.ui.diary.dialog.FragmentEmotionCheck
+import konkuk.gdsc.memotion.ui.diary.dialog.FragmentEmotionSelect
+import konkuk.gdsc.memotion.ui.diary.dialog.FragmentLoading
 import konkuk.gdsc.memotion.util.calendarToString
 
 class WritingDiaryActivity : AppCompatActivity() {
@@ -26,6 +31,7 @@ class WritingDiaryActivity : AppCompatActivity() {
                     .centerCrop()
                     .into(binding.ivWritingDiaryImage)
                 binding.ivWritingDiaryImage.visibility = View.VISIBLE
+                binding.vBorderLine.visibility = View.VISIBLE
             } else {
                 Log.d("PhotoPicker", "No media selected")
             }
@@ -54,7 +60,20 @@ class WritingDiaryActivity : AppCompatActivity() {
                     null,
                     etWritingDiaryContent.text.toString()
                 )
-                finish()
+//                finish()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fl_writing_diary_cover, FragmentLoading())
+                    .commit()
+                /*Handler(Looper.getMainLooper()).postDelayed({
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fl_writing_diary_cover, FragmentEmotionCheck())
+                        .commit()
+                }, 5000)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fl_writing_diary_cover, FragmentEmotionSelect())
+                        .commit()
+                }, 10000)*/
             }
         }
 
