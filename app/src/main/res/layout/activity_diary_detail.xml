@@ -155,24 +155,31 @@
                         app:layout_constraintStart_toEndOf="@id/tv_feelings"
                         app:layout_constraintTop_toTopOf="@id/tv_feelings" />
 
-                    <ProgressBar
-                        android:id="@+id/pb_diary_detail_percentage"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/lpi_diary_detail_percentage"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:max="100"
-                        android:progress="76"
+                        android:layout_marginTop="2dp"
+                        android:max="10000"
+                        app:indicatorColor="@color/percentage"
+                        app:layout_constraintEnd_toStartOf="@id/tv_diary_detail_percentage_number"
+                        app:layout_constraintHorizontal_weight="1"
                         app:layout_constraintStart_toStartOf="@id/tv_feelings"
-                        app:layout_constraintTop_toBottomOf="@id/tv_feelings" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_feelings"
+                        app:trackColor="#ECECEC"
+                        app:trackCornerRadius="5dp"
+                        app:trackThickness="10dp" />
 
                     <TextView
                         android:id="@+id/tv_diary_detail_percentage_number"
-                        android:layout_width="wrap_content"
+                        android:layout_width="36dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="9dp"
                         android:textSize="10sp"
-                        app:layout_constraintBottom_toBottomOf="@id/pb_diary_detail_percentage"
-                        app:layout_constraintStart_toEndOf="@id/pb_diary_detail_percentage"
-                        app:layout_constraintTop_toTopOf="@id/pb_diary_detail_percentage" />
+                        app:layout_constraintBottom_toBottomOf="@id/lpi_diary_detail_percentage"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/lpi_diary_detail_percentage"
+                        app:layout_constraintTop_toTopOf="@id/lpi_diary_detail_percentage" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
