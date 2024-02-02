@@ -11,6 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:paddingHorizontal="20dp">
 
         <View
@@ -40,7 +41,7 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_marginTop="10dp"
-            android:background="#FFD220"
+            android:background="@drawable/shape_circle_blue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@{diaryContent.date}"
-            android:textColor="#FFD220"
+            android:textColor="#5375FC"
             app:layout_constraintBottom_toBottomOf="@id/v_dot"
             app:layout_constraintStart_toEndOf="@id/v_dot"
             app:layout_constraintTop_toTopOf="@id/v_dot" />
@@ -118,11 +119,11 @@
                 app:layout_constraintTop_toTopOf="@id/iv_item_diary_emotion" />
 
             <ImageView
+                android:id="@+id/iv_item_diary_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
                 android:src="@drawable/icon_bell"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
