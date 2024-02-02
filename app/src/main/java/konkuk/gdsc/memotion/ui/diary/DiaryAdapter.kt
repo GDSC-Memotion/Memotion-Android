@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import konkuk.gdsc.memotion.data.DiarySimple
 import konkuk.gdsc.memotion.databinding.ItemDiaryBinding
 import konkuk.gdsc.memotion.ui.diary.detail.DiaryDetailActivity
+import konkuk.gdsc.memotion.util.dpToPx
 
 class DiaryAdapter(
     private val context: Context,
@@ -36,6 +37,14 @@ class DiaryAdapter(
             }
 
             binding.ivItemDiaryEmotion.setImageResource(item.emotion.getResource())
+
+            if(item.imageUrl?.isNotBlank() == true) {
+                binding.ivItemDiaryImage.layoutParams.height =
+                    (context.resources.displayMetrics.widthPixels - dpToPx(context, 51f)).toInt()
+                binding.ivItemDiaryImage.visibility = View.VISIBLE
+            } else {
+                binding.ivItemDiaryImage.visibility = View.GONE
+            }
         }
     }
 
