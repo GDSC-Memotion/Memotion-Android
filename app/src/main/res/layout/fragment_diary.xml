@@ -7,25 +7,15 @@
     android:orientation="vertical"
     tools:context=".ui.diary.DiaryFragment">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/icon_chevron_up"
-        app:layout_constraintStart_toStartOf="@id/fab_up"
-        app:layout_constraintEnd_toEndOf="@id/fab_up"
-        app:layout_constraintTop_toTopOf="@id/fab_up"
-        app:layout_constraintBottom_toBottomOf="@id/fab_up"
-        android:elevation="10dp" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_up"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_margin="24dp"
-        android:elevation="0dp"
-        android:outlineSpotShadowColor="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:background="@drawable/btn_floating"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <LinearLayout
         android:layout_width="match_parent"
