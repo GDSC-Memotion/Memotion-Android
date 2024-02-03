@@ -62,5 +62,8 @@ dependencies {
     implementation("androidx.activity:activity-ktx:$activity_version")
 
     val glide_version = "4.16.0"
-    implementation ("com.github.bumptech.glide:glide:$glide_version")
+    implementation("com.github.bumptech.glide:glide:$glide_version")
+
+    val balloon_version = "1.6.4"
+    implementation("com.github.skydoves:balloon:$balloon_version")
 }
