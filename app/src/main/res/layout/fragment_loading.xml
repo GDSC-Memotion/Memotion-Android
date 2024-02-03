@@ -3,15 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#80555555">
+    android:background="#80000000">
+    
+    <ImageView
+        android:id="@+id/iv_loading"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/icon_loading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
+        android:id="@+id/tv_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="loading..."
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Analyzing the Emotion..."
+        android:textColor="@color/white"
+        android:layout_marginTop="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/iv_loading"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
