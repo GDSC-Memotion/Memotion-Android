@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import konkuk.gdsc.memotion.data.DiarySimple
+import konkuk.gdsc.memotion.databinding.ItemCalendarBinding
 import konkuk.gdsc.memotion.databinding.ItemDiaryBinding
 import konkuk.gdsc.memotion.ui.diary.detail.DiaryDetailActivity
 import konkuk.gdsc.memotion.util.dpToPx
@@ -14,14 +15,14 @@ import konkuk.gdsc.memotion.util.dpToPx
 class DiaryAdapter(
     private val context: Context,
     private var data: List<DiarySimple>,
-) : RecyclerView.Adapter<DiaryAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    class ViewHolder(
+    class DiaryViewHolder(
         val binding: ItemDiaryBinding,
         private val context: Context,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: DiarySimple) {
-            if (this.layoutPosition == 0) {
+            if (this.layoutPosition == 1) {
                 binding.vFirst.visibility = View.VISIBLE
                 binding.vSecond.visibility = View.INVISIBLE
             } else {
@@ -48,25 +49,51 @@ class DiaryAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding: ItemDiaryBinding =
-            ItemDiaryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding, context)
+    class CalendarViewHolder(
+        val binding: ItemCalendarBinding,
+    ): RecyclerView.ViewHolder(binding.root)
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == 0) 0 else 1
     }
 
-    override fun getItemCount() = data.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when(viewType) {
+            0 ->{
+                val calendarBinding: ItemCalendarBinding =
+                    ItemCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                CalendarViewHolder(calendarBinding)
+            }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(data[position])
+            else -> {
+                val diaryBinding: ItemDiaryBinding =
+                    ItemDiaryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                DiaryViewHolder(diaryBinding, context)
+            }
+        }
+    }
 
-        holder.binding.llItemDiaryTrash.setOnClickListener {
-            removeData(holder.layoutPosition)
+    override fun getItemCount() = data.size + 1
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when(position) {
+            0 -> {
+                holder as CalendarViewHolder
+            }
+            else -> {
+                val diaryViewHolder = holder as DiaryViewHolder
+                diaryViewHolder.bind(data[position-1])
+                diaryViewHolder.binding.llItemDiaryTrash.setOnClickListener {
+                    removeData(holder.layoutPosition)
+                }
+            }
         }
     }
 
     private fun removeData(position: Int) {
+        val dataPosition = position - 1
         val beforeData = data.toMutableList()
-        beforeData.removeAt(position)
+        beforeData.removeAt(dataPosition)
         data = beforeData.toList()
         notifyItemRemoved(position)
     }
