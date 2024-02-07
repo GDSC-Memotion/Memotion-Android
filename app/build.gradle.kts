@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("com.google.devtools.ksp")
+    id("kotlinx-serialization")
 
     // navigation-component's SafeArgs
     id("androidx.navigation.safeargs")
@@ -66,4 +67,18 @@ dependencies {
 
     val balloon_version = "1.6.4"
     implementation("com.github.skydoves:balloon:$balloon_version")
+
+    val retrofit_version = "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofit_version")
+
+    val okhttp_version = "4.12.0"
+    implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
+    implementation("com.squareup.okhttp3:logging-interceptor:$okhttp_version")
+
+    val kotlinx_serialization_json = "1.6.0"
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serialization_json")
+    val kotlinx_serialization_converter = "1.0.0"
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$kotlinx_serialization_converter")
 }
