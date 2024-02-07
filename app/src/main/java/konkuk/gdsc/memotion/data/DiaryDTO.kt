@@ -21,7 +21,6 @@ data class DiarySimple(
 
 data class DiaryDetail(
     val date: String,
-    val weather: Weather,
     val imageUrls: List<String>?,
     val content: String,
     val emotions: List<EmotionResult>,
@@ -30,7 +29,6 @@ data class DiaryDetail(
     companion object {
         val sample = DiaryDetail(
             calendarToString(Calendar.getInstance()),
-            Weather.SUN,
             null,
             "안녕하세요",
             EmotionResult.sample,
@@ -41,14 +39,12 @@ data class DiaryDetail(
 
 data class DiaryWriting(
     val date: String,
-    val weather: Weather,
     val imageUrls: List<String>?,
     val content: String,
 ) {
     companion object {
         val sample = DiaryWriting(
             calendarToString(Calendar.getInstance()),
-            Weather.SUN,
             null,
             "안녕하세요"
         )
