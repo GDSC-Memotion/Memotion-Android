@@ -8,9 +8,9 @@
 
     <TextView
         android:id="@+id/tv_item_emotion_title"
-        android:layout_width="73dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:text="Disgust"
+        android:textColor="@color/black"
         android:textSize="12sp" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -19,19 +19,17 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:max="10000"
-        app:indicatorColor="@color/percentage"
-        app:trackColor="#ECECEC"
-        app:trackCornerRadius="5dp"
-        app:trackThickness="10dp" />
+        app:trackColor="@android:color/transparent"
+        app:trackCornerRadius="10dp"
+        app:trackThickness="12dp" />
 
     <TextView
         android:id="@+id/tv_item_emotion_percentage_number"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginStart="8dp"
-        android:text="21.64%"
-        android:textSize="10sp" />
-
+        android:textColor="@color/gray400"
+        android:textSize="12sp" />
 
 </LinearLayout>

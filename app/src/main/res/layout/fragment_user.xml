@@ -5,15 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="16dp"
     tools:context=".ui.user.UserFragment">
+
+    <TextView
+        style="@style/TITLE_TEXT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Page" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="12dp">
+        android:paddingVertical="20dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_user_profile_image"
@@ -24,6 +31,7 @@
 
         <TextView
             android:id="@+id/tv_user_name"
+            style="@style/SUBTITLE_TEXT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -31,15 +39,15 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="1dp"
+        android:background="@color/orange_main" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingHorizontal="24dp">
+        android:orientation="vertical">
 
         <TimePicker
             android:id="@+id/tp_time_setting"
@@ -92,43 +100,45 @@
             android:layout_height="1dp"
             android:background="#D9D9D9" />
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="12dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_bell" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="Notices"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#D9D9D9" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="10dp">
+                android:layout_marginStart="8dp"
+                android:text="Reminder"
+                android:textColor="@color/gray800" />
 
             <TextView
+                android:layout_width="44dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="7dp"
+                android:background="@color/gray100"
+                android:gravity="center"
+                android:text="22:00"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="Notices"
-                android:textSize="18sp" />
+                android:layout_height="wrap_content" />
 
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#D9D9D9" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </LinearLayout>
 
