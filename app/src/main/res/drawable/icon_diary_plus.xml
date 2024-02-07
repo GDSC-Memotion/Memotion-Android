@@ -6,7 +6,7 @@
     android:viewportHeight="43">
   <path
       android:pathData="M23.161,19m-19,0a19,19 0,1 1,38 0a19,19 0,1 1,-38 0"
-      android:fillColor="#FFD220"/>
+      android:fillColor="@color/writing_diary_button"/>
   <path
       android:pathData="M0,23C1.899,34.073 11.546,42.5 23.161,42.5C34.776,42.5 44.423,34.073 46.322,23H43.271C41.41,32.407 33.114,39.5 23.161,39.5C13.208,39.5 4.912,32.407 3.051,23H0Z"
       android:fillType="evenOdd">

@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">Memotion</string>
+
+    <string name="hint_empty_diary">Please keep a diary :)</string>
+    <string name="hint_writing_diary_content">Write your story :)</string>
+
+    <string name="emotion_angry">Angry</string>
+    <string name="emotion_disgust">Disgust</string>
+    <string name="emotion_fear">Fear</string>
+    <string name="emotion_joy">Joy</string>
+    <string name="emotion_neutral">Neutral</string>
+    <string name="emotion_sadness">Sadness</string>
+    <string name="emotion_surprise">Surprise</string>
+
+    <string name="add_photo">Add Photo</string>
+
+    <string name="day_of_week_1">SUN</string>
+    <string name="day_of_week_2">MON</string>
+    <string name="day_of_week_3">THU</string>
+    <string name="day_of_week_4">WED</string>
+    <string name="day_of_week_5">THR</string>
+    <string name="day_of_week_6">FRI</string>
+    <string name="day_of_week_7">SAT</string>
+    
+    <string name="edit">EDIT</string>
+    <string name="post">POST</string>
+
+    <string name="view_more">View More</string>
+    <string name="view_less">View Less</string>
+    <string name="subtitle_emotion">Result of Emotional Analysis</string>
+    <string name="comment_recommand_playlist">We recommend this playlist to you.</string>
 </resources>

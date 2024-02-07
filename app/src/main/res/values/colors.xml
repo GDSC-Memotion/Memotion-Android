@@ -2,4 +2,29 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="percentage">#8BA2FF</color>
+
+    <color name="writing_diary_button">#FD9C29</color>
+    <color name="orange_main">#F49B4D</color>
+    <color name="orange_disable">#B3AA99</color>
+    <color name="orange_background">#FFFCF8</color>
+    <color name="delete">#FF5353</color>
+
+    <color name="gray100">#DFDFDF</color>
+    <color name="gray200">#C1C1C1</color>
+    <color name="gray300">#A5A5A5</color>
+    <color name="gray400">#8B8B8B</color>
+    <color name="gray500">#6F6F6F</color>
+    <color name="gray700">#3D3D3D</color>
+    <color name="gray800">#242424</color>
+
+    <color name="angry_color">#F15955</color>
+    <color name="disgust_color">#9D79BC</color>
+    <color name="fear_color">#70C1B3</color>
+    <color name="joy_color">#FFE066</color>
+    <color name="neutral_color">#706993</color>
+    <color name="sadness_color">#47ABD5</color>
+    <color name="surprise_color">#F2B880</color>
+
 </resources>
