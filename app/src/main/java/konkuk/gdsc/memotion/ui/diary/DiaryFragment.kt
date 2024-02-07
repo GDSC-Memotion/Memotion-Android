@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import konkuk.gdsc.memotion.data.DiarySimple
+import konkuk.gdsc.memotion.domain.entity.diary.DiarySimple
 import konkuk.gdsc.memotion.databinding.FragmentDiaryBinding
 import konkuk.gdsc.memotion.util.dpToPx
 

@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import konkuk.gdsc.memotion.data.DiarySimple
+import konkuk.gdsc.memotion.domain.entity.diary.DiarySimple
 import konkuk.gdsc.memotion.databinding.ItemCalendarBinding
 import konkuk.gdsc.memotion.databinding.ItemDiaryBinding
 import konkuk.gdsc.memotion.ui.diary.detail.DiaryDetailActivity

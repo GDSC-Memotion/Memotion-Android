@@ -1,4 +1,4 @@
-package konkuk.gdsc.memotion.data
+package konkuk.gdsc.memotion.domain.entity.emotion
 
 import konkuk.gdsc.memotion.R
 

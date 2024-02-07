@@ -12,7 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import konkuk.gdsc.memotion.MainActivity
 import konkuk.gdsc.memotion.R
-import konkuk.gdsc.memotion.data.DiaryWriting
+import konkuk.gdsc.memotion.domain.entity.diary.DiaryWriting
 import konkuk.gdsc.memotion.databinding.ActivityWritingDiaryBinding
 import konkuk.gdsc.memotion.ui.diary.dialog.FragmentLoading
 import konkuk.gdsc.memotion.util.calendarToStringWithoutTime

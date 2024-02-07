@@ -13,7 +13,7 @@ import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.createBalloon
 import konkuk.gdsc.memotion.MainActivity
 import konkuk.gdsc.memotion.R
-import konkuk.gdsc.memotion.data.DiaryDetail
+import konkuk.gdsc.memotion.domain.entity.diary.DiaryDetail
 import konkuk.gdsc.memotion.databinding.ActivityDiaryDetailBinding
 import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryActivity
 
