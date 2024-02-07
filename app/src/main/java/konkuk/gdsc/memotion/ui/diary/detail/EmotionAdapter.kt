@@ -19,9 +19,9 @@ class EmotionAdapter(
         fun bind(item: EmotionResult) {
             binding.apply {
                 tvItemEmotionTitle.text = item.emotion.toString()
-                tvItemEmotionPercentageNumber.text = String.format("%.2f", item.percentage) + "%"
+                tvItemEmotionPercentageNumber.text = "${String.format("%.2f", item.percentage)} %"
 
-//                lpiItemEmotionPercentage. ()
+                lpiItemEmotionPercentage.setIndicatorColor()
                 lpiItemEmotionPercentage.setProgressCompat((item.percentage * 100).toInt(), true)
 
             }

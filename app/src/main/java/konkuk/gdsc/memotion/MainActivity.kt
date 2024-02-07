@@ -26,8 +26,13 @@ class MainActivity : AppCompatActivity() {
 
             ivMainPlusDiary.setOnClickListener {
                 val intent = Intent(this@MainActivity, WritingDiaryActivity::class.java)
+                intent.putExtra(INTENT_VERSION, 0)
                 startActivity(intent)
             }
         }
+    }
+
+    companion object {
+        const val INTENT_VERSION = "writing diary version"
     }
 }
