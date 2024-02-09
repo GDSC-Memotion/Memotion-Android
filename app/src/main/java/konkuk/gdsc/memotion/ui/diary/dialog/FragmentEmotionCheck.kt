@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.databinding.FragmentEmotionCheckBinding
 
 class FragmentEmotionCheck : Fragment() {
@@ -27,6 +28,21 @@ class FragmentEmotionCheck : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.apply {
+            llEmotionCheckBackground.setOnClickListener { }
+
+            btnEmotionCheckNo.setOnClickListener {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fl_writing_diary_cover, FragmentEmotionSelect())
+                    .commit()
+            }
+            btnEmotionCheckYes.setOnClickListener {
+                parentFragmentManager.beginTransaction()
+                    .remove(this@FragmentEmotionCheck)
+                    .commit()
+            }
+        }
     }
 
     override fun onDestroyView() {

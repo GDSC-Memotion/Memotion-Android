@@ -3,7 +3,7 @@ package konkuk.gdsc.memotion.ui.diary.detail
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import konkuk.gdsc.memotion.data.EmotionResult
+import konkuk.gdsc.memotion.domain.entity.emotion.EmotionResult
 import konkuk.gdsc.memotion.databinding.ItemEmotionPercentageBinding
 
 class EmotionAdapter(
@@ -16,7 +16,11 @@ class EmotionAdapter(
         fun bind(item: EmotionResult) {
             binding.apply {
                 tvItemEmotionTitle.text = item.emotion.toString()
-                tvItemEmotionPercentageNumber.text = String.format("%.2f", item.percentage) + "%"
+                tvItemEmotionPercentageNumber.text = "${String.format("%.2f", item.percentage)} %"
+
+                lpiItemEmotionPercentage.setIndicatorColor()
+                lpiItemEmotionPercentage.setProgressCompat((item.percentage * 100).toInt(), true)
+
             }
         }
     }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TITLE_TEXT_STYLE">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+    <style name="SUBTITLE_TEXT_STYLE">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+    <style name="CONTENT_TEXT_STYLE">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textFontWeight">400</item>
+    </style>
+    <style name="SUBCONTENT_TEXT_STYLE">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textFontWeight">400</item>
+    </style>
+    <style name="BUTTON_TEXT_STYLE">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+    
+    <style name="TITLE_TEXT" parent="TITLE_TEXT_STYLE">
+        <item name="android:textColor">@color/gray800</item>
+    </style>
+    <style name="TITLE_TEXT_DISABLE" parent="TITLE_TEXT_STYLE">
+        <item name="android:textColor">@color/gray400</item>
+    </style>
+    <style name="SUBTITLE_TEXT" parent="SUBTITLE_TEXT_STYLE">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="CONTENT_TEXT" parent="CONTENT_TEXT_STYLE">
+        <item name="android:textColor">@color/gray800</item>
+    </style>
+    <style name="SUBCONTENT_TEXT" parent="SUBCONTENT_TEXT_STYLE">
+        <item name="android:textColor">@color/gray300</item>
+    </style>
+    <style name="BUTTON_TEXT" parent="BUTTON_TEXT_STYLE">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="BUTTON_TEXT_DISABLE" parent="TITLE_TEXT_STYLE">
+        <item name="android:textColor">@color/gray300</item>
+    </style>
+</resources>
