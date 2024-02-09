@@ -13,15 +13,21 @@
         android:textColor="@color/black"
         android:textSize="12sp" />
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/lpi_item_emotion_percentage"
+    <com.skydoves.progressview.ProgressView
+        android:id="@+id/pv_item_emotion_percentage"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="12dp"
         android:layout_weight="1"
-        android:max="10000"
-        app:trackColor="@android:color/transparent"
-        app:trackCornerRadius="10dp"
-        app:trackThickness="12dp" />
+        app:progressView_autoAnimate="true"
+        app:progressView_colorBackground="@android:color/transparent"
+        app:progressView_colorGradientEnd="@color/orange_main"
+        app:progressView_colorGradientStart="@color/white"
+        app:progressView_max="10000"
+        app:progressView_min="15"
+        app:progressView_padding="1dp"
+        app:progressView_progress="40"
+        app:progressView_progressFromPrevious="true"
+        app:progressView_radius="10dp" />
 
     <TextView
         android:id="@+id/tv_item_emotion_percentage_number"

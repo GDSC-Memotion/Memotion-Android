@@ -48,7 +48,8 @@ class DiaryDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setDetailVisibility()
-        val titleEmotion = data.emotions.find { it.isTitle }
+        val titleEmotion =
+            requireNotNull(data.emotions.find { it.isTitle }) { "emotion data is null" }
 
         binding.apply {
             ivDiaryDetailBack.setOnClickListener {
@@ -60,19 +61,18 @@ class DiaryDetailActivity : AppCompatActivity() {
             }
 
             tvDiaryDetailDate.text = data.date
+            tvHiddenEmotion.text = titleEmotion.emotion.toString()
 
             tvDiaryDetailContent.text = data.content
 
             ivDiaryDetailEmotion.setImageResource(
-                titleEmotion?.emotion?.getResource() ?: R.drawable.icon_anger
+                titleEmotion.emotion.getResource()
             )
 
-            tvDiaryDetailEmotion.text = titleEmotion?.emotion.toString()
-            lpiDiaryDetailPercentage.setProgressCompat(
-                (data.emotions[0].percentage * 100).toInt(),
-                true
-            )
-            tvDiaryDetailPercentageNumber.text = "${String.format("%.2f", titleEmotion?.percentage)} %"
+            tvDiaryDetailEmotion.text = titleEmotion.emotion.toString()
+            pvDiaryDetailPercentage.progress = (data.emotions[0].percentage * 100)
+            tvDiaryDetailPercentageNumber.text =
+                "${String.format("%.2f", titleEmotion?.percentage)} %"
 
             rvDiaryDetailEmotionList.adapter = EmotionAdapter(data.emotions)
             rvDiaryDetailEmotionList.layoutManager = LinearLayoutManager(this@DiaryDetailActivity)
@@ -88,13 +88,11 @@ class DiaryDetailActivity : AppCompatActivity() {
                 startActivity(implicitIntent)
             }
 
-            tvDiaryDetailEmotionViewmore.setOnClickListener{
+            tvDiaryDetailEmotionViewmore.setOnClickListener {
                 emotionState = !emotionState
                 setDetailVisibility()
             }
 
-            lpiDiaryDetailPercentage.setIndicatorColor()
-            lpiDiaryDetailPercentage.progress
         }
 
         setPopupButton()
@@ -125,9 +123,13 @@ class DiaryDetailActivity : AppCompatActivity() {
         if (emotionState) {
             binding.tvDiaryDetailEmotionViewmore.text = this@DiaryDetailActivity.getString(R.string.view_less)
             binding.llcDiaryDetailEmotionDetail.visibility = View.VISIBLE
+            binding.tvHiddenEmotion.visibility = View.VISIBLE
+            binding.tvDiaryDetailEmotion.visibility = View.GONE
         } else {
             binding.tvDiaryDetailEmotionViewmore.text = this@DiaryDetailActivity.getString(R.string.view_more)
             binding.llcDiaryDetailEmotionDetail.visibility = View.GONE
+            binding.tvHiddenEmotion.visibility = View.GONE
+            binding.tvDiaryDetailEmotion.visibility = View.VISIBLE
         }
     }
 }
