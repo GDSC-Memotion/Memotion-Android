@@ -3,26 +3,26 @@ package konkuk.gdsc.memotion.ui.diary.dialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.databinding.FragmentLoadingBinding
+import konkuk.gdsc.memotion.util.TAG
 
-class FragmentLoading: Fragment() {
+class FragmentLoading(
+    private val loading: () -> Unit
+) : Fragment() {
     private var _binding: FragmentLoadingBinding? = null
     private val binding: FragmentLoadingBinding
         get() = requireNotNull(_binding) { "FragmentLoading's binding is null" }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d(TAG, "FragmentLoading - onCreateView() called")
         _binding = FragmentLoadingBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -31,9 +31,7 @@ class FragmentLoading: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fl_writing_diary_cover, FragmentEmotionCheck())
-                .commit()
+            loading()
         }, 5000)
 
     }

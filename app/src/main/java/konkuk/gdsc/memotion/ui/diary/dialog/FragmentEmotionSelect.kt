@@ -10,9 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.databinding.FragmentEmotionSelectBinding
+import konkuk.gdsc.memotion.domain.entity.emotion.Emotion
 import konkuk.gdsc.memotion.util.TAG
 
-class FragmentEmotionSelect : Fragment() {
+class FragmentEmotionSelect(
+    private val btnSelect: (emotion: Emotion) -> Unit
+) : Fragment() {
 
     private var _binding: FragmentEmotionSelectBinding? = null
     private val binding: FragmentEmotionSelectBinding
@@ -26,20 +29,19 @@ class FragmentEmotionSelect : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d(TAG, "FragmentEmotionSelect - onCreateView() called")
         _binding = FragmentEmotionSelectBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        Log.d(TAG, "FragmentEmotionSelect - onViewCreated() called")
         binding.apply {
             llEmotionSelectBackground.setOnClickListener {}
 
             btnEmotionSelect.setOnClickListener {
-                parentFragmentManager.beginTransaction()
-                    .remove(this@FragmentEmotionSelect)
-                    .commit()
+                btnSelect(Emotion.ANGER)
             }
         }
 
