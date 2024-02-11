@@ -27,4 +27,6 @@
     <color name="sadness_color">#47ABD5</color>
     <color name="surprise_color">#F2B880</color>
 
+    <color name="dialog_background">#80000000</color>
+
 </resources>
