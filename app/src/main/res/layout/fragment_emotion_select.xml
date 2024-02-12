@@ -54,10 +54,10 @@
                         android:layout_width="60dp"
                         android:layout_height="wrap_content"
                         android:button="@null"
-                        android:checked="true"
                         android:drawableTop="@drawable/selector_emoji_anger"
                         android:text="@string/emotion_angry"
                         android:textAlignment="center"
+                        android:textColor="@drawable/selector_emotion_text"
                         android:textSize="12sp" />
 
                     <View
@@ -71,9 +71,10 @@
                         android:layout_height="wrap_content"
                         android:button="@null"
                         android:checked="false"
-                        android:drawableTop="@drawable/icon_emoji_disgust"
+                        android:drawableTop="@drawable/selector_emoji_disgust"
                         android:text="@string/emotion_disgust"
                         android:textAlignment="center"
+                        android:textColor="@drawable/selector_emotion_text"
                         android:textSize="12sp" />
 
                     <View
@@ -87,9 +88,10 @@
                         android:layout_height="wrap_content"
                         android:button="@null"
                         android:checked="false"
-                        android:drawableTop="@drawable/icon_emoji_fear"
+                        android:drawableTop="@drawable/selector_emoji_fear"
                         android:text="@string/emotion_fear"
                         android:textAlignment="center"
+                        android:textColor="@drawable/selector_emotion_text"
                         android:textSize="12sp" />
 
                     <View
@@ -103,9 +105,10 @@
                         android:layout_height="wrap_content"
                         android:button="@null"
                         android:checked="false"
-                        android:drawableTop="@drawable/icon_emoji_joy"
+                        android:drawableTop="@drawable/selector_emoji_joy"
                         android:text="@string/emotion_joy"
                         android:textAlignment="center"
+                        android:textColor="@drawable/selector_emotion_text"
                         android:textSize="12sp" />
 
                 </RadioGroup>
@@ -125,9 +128,10 @@
                         android:layout_height="wrap_content"
                         android:button="@null"
                         android:checked="false"
-                        android:drawableTop="@drawable/icon_emoji_neutral"
+                        android:drawableTop="@drawable/selector_emoji_neutral"
                         android:text="@string/emotion_neutral"
                         android:textAlignment="center"
+                        android:textColor="@drawable/selector_emotion_text"
                         android:textSize="12sp" />
 
                     <View
@@ -141,9 +145,10 @@
                         android:layout_height="wrap_content"
                         android:button="@null"
                         android:checked="false"
-                        android:drawableTop="@drawable/icon_emoji_sadness"
+                        android:drawableTop="@drawable/selector_emoji_sadness"
                         android:text="@string/emotion_sadness"
                         android:textAlignment="center"
+                        android:textColor="@drawable/selector_emotion_text"
                         android:textSize="12sp" />
 
                     <View
@@ -157,9 +162,10 @@
                         android:layout_height="wrap_content"
                         android:button="@null"
                         android:checked="false"
-                        android:drawableTop="@drawable/icon_emoji_surprise"
+                        android:drawableTop="@drawable/selector_emoji_surprise"
                         android:text="@string/emotion_surprise"
                         android:textAlignment="center"
+                        android:textColor="@drawable/selector_emotion_text"
                         android:textSize="12sp" />
 
                 </RadioGroup>
@@ -172,9 +178,10 @@
                 android:layout_height="40dp"
                 android:layout_marginHorizontal="22dp"
                 android:layout_marginVertical="26dp"
-                android:background="@drawable/shape_background_button_undisable"
+                android:background="@drawable/selector_select_button"
+                android:enabled="false"
                 android:text="@string/select"
-                android:textColor="@color/white"
+                android:textColor="@drawable/selector_button_text"
                 android:textSize="16sp"
                 app:cornerRadius="10dp" />
 
