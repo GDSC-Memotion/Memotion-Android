@@ -32,4 +32,7 @@
 
     <string name="loading">Analyzing the Emotion...</string>
     <string name="select">SELECT</string>
+
+    <string name="user_title">My Page</string>
+    <string name="hint_user_profile_name">You need to login to use\n“My Page” service.</string>
 </resources>
