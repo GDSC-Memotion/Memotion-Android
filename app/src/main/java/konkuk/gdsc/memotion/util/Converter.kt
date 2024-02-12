@@ -12,6 +12,7 @@ fun dpToPx(context: Context, dp: Float): Float {
 val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd EEE HH:mm:ss") // 2024.01.01 MON 00:00:00의 형태
 val simpleDateFormatDate = SimpleDateFormat("yyyy.MM.dd") // 2024.01.01의 형태
 val simpleDateFormatTime = SimpleDateFormat("HH:mm:ss") // 00:00:00의 형태
+val simpleDateFormatNoti = SimpleDateFormat("HH:mm") // 00:00의 형태
 
 fun calendarToString(date: Calendar): String {
     return simpleDateFormat.format(date)
@@ -35,4 +36,8 @@ fun calendarToStringWithoutTime(cal: Calendar): String {
 
 fun calendarToStringTime(cal: Calendar): String {
     return simpleDateFormatTime.format(cal)
+}
+
+fun calendarToStringNoti(cal: Calendar): String {
+    return simpleDateFormatNoti.format(cal)
 }
