@@ -8,8 +8,8 @@ plugins {
     id("androidx.navigation.safeargs")
 
     // Hilt-Dagger
-    kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    kotlin("kapt")
 }
 
 android {
