@@ -5,14 +5,13 @@ import android.graphics.Rect
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.MainActivity
 import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.domain.entity.diary.DiaryWriting
@@ -24,6 +23,7 @@ import konkuk.gdsc.memotion.ui.diary.dialog.FragmentLoading
 import konkuk.gdsc.memotion.util.TAG
 import konkuk.gdsc.memotion.util.calendarToStringWithoutTime
 
+@AndroidEntryPoint
 class WritingDiaryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityWritingDiaryBinding

@@ -12,12 +12,14 @@ import com.skydoves.balloon.ArrowOrientation
 import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.createBalloon
+import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.MainActivity
 import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.domain.entity.diary.DiaryDetail
 import konkuk.gdsc.memotion.databinding.ActivityDiaryDetailBinding
 import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryActivity
 
+@AndroidEntryPoint
 class DiaryDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDiaryDetailBinding

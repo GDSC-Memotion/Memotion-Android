@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.databinding.FragmentEmotionSelectBinding
 import konkuk.gdsc.memotion.domain.entity.emotion.Emotion
 import konkuk.gdsc.memotion.util.TAG
 
+@AndroidEntryPoint
 class FragmentEmotionSelect(
     private val btnSelect: (emotion: Emotion) -> Unit
 ) : Fragment() {

@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.domain.entity.diary.DiarySimple
 import konkuk.gdsc.memotion.databinding.FragmentDiaryBinding
 import konkuk.gdsc.memotion.util.dpToPx
 import konkuk.gdsc.memotion.util.view.setOnSingleClickListener
 
+@AndroidEntryPoint
 class DiaryFragment : Fragment() {
 
     private var _binding: FragmentDiaryBinding? = null
