@@ -67,6 +67,8 @@ dependencies {
 
     val balloon_version = "1.6.4"
     implementation("com.github.skydoves:balloon:$balloon_version")
+    val progressview_version = "1.1.3"
+    implementation("com.github.skydoves:progressview:$progressview_version")
 
     val retrofit_version = "2.9.0"
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")

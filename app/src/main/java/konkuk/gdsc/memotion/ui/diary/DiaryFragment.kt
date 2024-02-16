@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import konkuk.gdsc.memotion.domain.entity.diary.DiarySimple
 import konkuk.gdsc.memotion.databinding.FragmentDiaryBinding
 import konkuk.gdsc.memotion.util.dpToPx
+import konkuk.gdsc.memotion.util.view.setOnSingleClickListener
 
 class DiaryFragment : Fragment() {
 
@@ -32,7 +34,20 @@ class DiaryFragment : Fragment() {
 
         binding.apply {
             rvDiaryList.adapter = diaryAdapter
-            rvDiaryList.layoutManager = LinearLayoutManager(requireActivity())
+
+            rvDiaryList.setOnScrollChangeListener { view, i, i2, i3, i4 ->
+                if (!view.canScrollVertically(-1)) {
+                    fabUp.visibility = View.GONE
+//                    fabUp.hide()
+                } else {
+                    fabUp.visibility = View.VISIBLE
+//                    fabUp.show()
+                }
+            }
+
+            fabUp.setOnSingleClickListener {
+                rvDiaryList.smoothScrollToPosition(0)
+            }
         }
 
         // 리사이클러뷰에 스와이프, 드래그 기능 달기

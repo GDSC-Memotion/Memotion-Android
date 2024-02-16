@@ -162,20 +162,36 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/tv_diary_detail_emotion" />
 
-                        <com.google.android.material.progressindicator.LinearProgressIndicator
-                            android:id="@+id/lpi_diary_detail_percentage"
-                            android:layout_width="0dp"
+                        <TextView
+                            android:id="@+id/tv_hidden_emotion"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:background="@drawable/shape_background_progress_indicator"
-                            android:max="10000"
-                            app:layout_constraintEnd_toStartOf="@id/tv_diary_detail_percentage_number"
-                            app:layout_constraintHorizontal_weight="1"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
                             app:layout_constraintStart_toStartOf="@id/iv_diary_detail_emotion"
                             app:layout_constraintTop_toBottomOf="@id/iv_diary_detail_emotion"
-                            app:trackColor="@android:color/transparent"
-                            app:trackCornerRadius="10dp"
-                            app:trackThickness="12dp" />
+                            android:visibility="gone"/>
+
+                        <com.skydoves.progressview.ProgressView
+                            android:id="@+id/pv_diary_detail_percentage"
+                            android:layout_width="0dp"
+                            android:layout_height="12dp"
+                            android:layout_marginTop="6dp"
+                            android:background="@drawable/shape_background_progress_indicator"
+                            app:layout_constraintEnd_toStartOf="@id/tv_diary_detail_percentage_number"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@id/tv_hidden_emotion"
+                            app:layout_constraintTop_toBottomOf="@id/iv_diary_detail_emotion"
+                            app:progressView_autoAnimate="true"
+                            app:progressView_colorBackground="@android:color/transparent"
+                            app:progressView_colorGradientEnd="@color/orange_main"
+                            app:progressView_colorGradientStart="@color/white"
+                            app:progressView_max="10000"
+                            app:progressView_min="15"
+                            app:progressView_padding="1dp"
+                            app:progressView_progress="40"
+                            app:progressView_progressFromPrevious="true"
+                            app:progressView_radius="10dp" />
 
                         <TextView
                             android:id="@+id/tv_diary_detail_percentage_number"
@@ -184,10 +200,10 @@
                             android:layout_marginStart="8dp"
                             android:textColor="@color/black"
                             android:textSize="12sp"
-                            app:layout_constraintBottom_toBottomOf="@id/lpi_diary_detail_percentage"
+                            app:layout_constraintBottom_toBottomOf="@id/pv_diary_detail_percentage"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/lpi_diary_detail_percentage"
-                            app:layout_constraintTop_toTopOf="@id/lpi_diary_detail_percentage" />
+                            app:layout_constraintStart_toEndOf="@id/pv_diary_detail_percentage"
+                            app:layout_constraintTop_toTopOf="@id/pv_diary_detail_percentage" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

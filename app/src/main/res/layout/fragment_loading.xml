@@ -19,7 +19,7 @@
         android:id="@+id/tv_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Analyzing the Emotion..."
+        android:text="@string/loading"
         android:textColor="@color/white"
         android:layout_marginTop="14dp"
         app:layout_constraintEnd_toEndOf="parent"

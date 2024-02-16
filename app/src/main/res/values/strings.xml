@@ -29,4 +29,7 @@
     <string name="view_less">View Less</string>
     <string name="subtitle_emotion">Result of Emotional Analysis</string>
     <string name="comment_recommand_playlist">We recommend this playlist to you.</string>
+
+    <string name="loading">Analyzing the Emotion...</string>
+    <string name="select">SELECT</string>
 </resources>

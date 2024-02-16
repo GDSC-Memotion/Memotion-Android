@@ -18,8 +18,7 @@ class EmotionAdapter(
                 tvItemEmotionTitle.text = item.emotion.toString()
                 tvItemEmotionPercentageNumber.text = "${String.format("%.2f", item.percentage)} %"
 
-                lpiItemEmotionPercentage.setIndicatorColor()
-                lpiItemEmotionPercentage.setProgressCompat((item.percentage * 100).toInt(), true)
+                pvItemEmotionPercentage.progress = item.percentage * 100
 
             }
         }
