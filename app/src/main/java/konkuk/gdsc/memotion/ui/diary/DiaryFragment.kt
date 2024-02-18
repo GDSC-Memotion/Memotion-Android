@@ -1,13 +1,15 @@
 package konkuk.gdsc.memotion.ui.diary
 
+import android.icu.text.SimpleDateFormat
+import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.domain.entity.diary.DiarySimple
 import konkuk.gdsc.memotion.databinding.FragmentDiaryBinding
@@ -15,11 +17,12 @@ import konkuk.gdsc.memotion.util.dpToPx
 import konkuk.gdsc.memotion.util.view.setOnSingleClickListener
 
 @AndroidEntryPoint
-class DiaryFragment : Fragment() {
+class DiaryFragment : Fragment(), DiaryAdapter.CalendarViewHolder.DateChangeListener {
 
     private var _binding: FragmentDiaryBinding? = null
     private val binding: FragmentDiaryBinding
         get() = requireNotNull(_binding) { "DiaryFragment's binding is null" }
+    private val viewModel: DiaryViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,18 +35,30 @@ class DiaryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val diaryAdapter = DiaryAdapter(requireActivity(), DiarySimple.sample)
+        val diaryAdapter = DiaryAdapter(requireActivity(), DiarySimple.sample, this)
+
+        val currentDayObserver = Observer<Calendar> {
+            viewModel.getDailyDiary(dayConverter.format(viewModel.currentDay.value))
+        }
+        val monthlyDiaryObserver = Observer<List<DiarySimple>> {
+
+        }
+        val dailyDiaryObserver = Observer<List<DiarySimple>> {
+            diaryAdapter.updateData(it)
+        }
+
+        viewModel.currentDay.observe(viewLifecycleOwner, currentDayObserver)
+        viewModel.monthlyDiary.observe(viewLifecycleOwner, monthlyDiaryObserver)
+        viewModel.dailyDiary.observe(viewLifecycleOwner, dailyDiaryObserver)
 
         binding.apply {
             rvDiaryList.adapter = diaryAdapter
 
-            rvDiaryList.setOnScrollChangeListener { view, i, i2, i3, i4 ->
+            rvDiaryList.setOnScrollChangeListener { view, _, _, _, _ ->
                 if (!view.canScrollVertically(-1)) {
                     fabUp.visibility = View.GONE
-//                    fabUp.hide()
                 } else {
                     fabUp.visibility = View.VISIBLE
-//                    fabUp.show()
                 }
             }
 
@@ -66,10 +81,25 @@ class DiaryFragment : Fragment() {
             swipeHelperCallback.removePreviousClamp(binding.rvDiaryList)
             false
         }
+
+        viewModel.getDailyDiary(dayConverter.format(viewModel.currentDay.value))
     }
 
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+    companion object {
+        val dayConverter = SimpleDateFormat("yyMMdd")
+        val monthConverter = SimpleDateFormat("yyMM")
+    }
+
+    override fun dateChanged(year: Int, month: Int, dayOfMonth: Int) {
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.YEAR, year)
+        cal.set(Calendar.MONTH, month)
+        cal.set(Calendar.DATE, dayOfMonth)
+        viewModel.changeCurrentDay(cal)
     }
 }
