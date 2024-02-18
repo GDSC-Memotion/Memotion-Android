@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.MainActivity
 import konkuk.gdsc.memotion.R
@@ -32,6 +33,7 @@ class WritingDiaryActivity : AppCompatActivity() {
         ""
     )
     private val version: Int by lazy { intent.getIntExtra(MainActivity.INTENT_VERSION, 0) }
+    private val viewmodel: WritingDiaryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +52,7 @@ class WritingDiaryActivity : AppCompatActivity() {
             btnWritingDiaryPost.setOnClickListener {
                 val data = DiaryWriting(
                     tvWritingDiaryDate.text.toString(),
-                    null,
+                    listOf(),
                     etWritingDiaryContent.text.toString()
                 )
 

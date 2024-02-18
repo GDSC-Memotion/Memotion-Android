@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.databinding.FragmentEmotionCheckBinding
+import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryViewModel
 import konkuk.gdsc.memotion.util.TAG
 
 @AndroidEntryPoint
@@ -20,6 +22,7 @@ class FragmentEmotionCheck(
     private var _binding: FragmentEmotionCheckBinding? = null
     private val binding: FragmentEmotionCheckBinding
         get() = requireNotNull(_binding) { "FragmentEmotionCheck's binding is null" }
+    private val viewModel: WritingDiaryViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

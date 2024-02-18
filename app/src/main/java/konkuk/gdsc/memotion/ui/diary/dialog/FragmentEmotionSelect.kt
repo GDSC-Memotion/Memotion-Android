@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.databinding.FragmentEmotionSelectBinding
 import konkuk.gdsc.memotion.domain.entity.emotion.Emotion
+import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryViewModel
 import konkuk.gdsc.memotion.util.TAG
 
 @AndroidEntryPoint
@@ -25,6 +27,7 @@ class FragmentEmotionSelect(
         get() = requireNotNull(_binding) { "FragmentEmotionSelect's binding is null" }
 
     private val emotinoResult: MutableLiveData<Emotion> = MutableLiveData()
+    private val viewModel: WritingDiaryViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

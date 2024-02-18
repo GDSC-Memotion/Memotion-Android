@@ -8,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.databinding.FragmentLoadingBinding
+import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryViewModel
 import konkuk.gdsc.memotion.util.TAG
 
 @AndroidEntryPoint
@@ -19,6 +21,7 @@ class FragmentLoading(
     private var _binding: FragmentLoadingBinding? = null
     private val binding: FragmentLoadingBinding
         get() = requireNotNull(_binding) { "FragmentLoading's binding is null" }
+    private val viewModel: WritingDiaryViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
