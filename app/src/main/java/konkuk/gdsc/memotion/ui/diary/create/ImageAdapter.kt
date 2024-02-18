@@ -2,6 +2,7 @@ package konkuk.gdsc.memotion.ui.diary.create
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import konkuk.gdsc.memotion.databinding.ItemAddPhotoBinding
 import konkuk.gdsc.memotion.databinding.ItemPhotoBinding
+import konkuk.gdsc.memotion.util.TAG
 import konkuk.gdsc.memotion.util.view.setOnSingleClickListener
 
 class ImageAdapter(
@@ -76,11 +78,8 @@ class ImageAdapter(
             imageViewHolder.bind(data[position])
             imageViewHolder.binding.ivItemPhotoClose.setOnClickListener {
                 data.removeAt(position)
-                notifyItemRemoved(position)
-                if (data.last().isNotBlank()) {
-                    data.add("")
-                    notifyItemInserted(data.size - 1)
-                }
+//                notifyItemRemoved(position) // -> 이상한 오류가 존재 중간에 것들을 삭제한 경우 position이 제대로 바뀌지 않는 오류 발견
+                notifyDataSetChanged()
             }
         }
     }
@@ -89,21 +88,18 @@ class ImageAdapter(
 
     private fun updateData(urls: List<Uri>) {   // 새로운 조건이 필요함
         if (validateUrls(urls)) {
-            if (data.last().isNullOrBlank()) {
-                data.removeLast()
-            }
             addData(urls)
-            if(!(data.size > MAX_IMAGE)) data.add(" ")
-            notifyDataSetChanged()
         } else {
             errorData()
         }
     }
 
     private fun addData(urls: List<Uri>) {
+        val dataStart = data.size
         for (url in urls) {
             data.add(url.toString())
         }
+        notifyItemRangeInserted(dataStart, urls.size)
     }
 
     private fun errorData() {
@@ -111,11 +107,15 @@ class ImageAdapter(
     }
 
     private fun validateUrls(urls: List<Uri>): Boolean {
-        val dataSize = if (data.last().isNullOrBlank()) data.size - 1 else data.size
+        val dataSize = data.size - 1
         val urlSize = urls.size
         if (dataSize > MAX_IMAGE) return false
         if (dataSize + urlSize > MAX_IMAGE) return false
         return true
+    }
+
+    fun setData(newData: MutableList<String>) {
+        data.addAll(newData)
     }
 
     companion object {
