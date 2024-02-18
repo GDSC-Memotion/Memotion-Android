@@ -5,13 +5,14 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.skydoves.balloon.ArrowOrientation
 import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
-import com.skydoves.balloon.createBalloon
 import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.MainActivity
 import konkuk.gdsc.memotion.R
@@ -26,11 +27,24 @@ class DiaryDetailActivity : AppCompatActivity() {
     private val data = DiaryDetail.sample
     private lateinit var balloon: Balloon
     private var emotionState = false
+    private val viewModel: DiaryDetailViewModel by viewModels()
+    private lateinit var youtubeIntent: Intent
+    private lateinit var youtubeMusicIntent: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDiaryDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val diaryObserver = Observer<DiaryDetail> {
+            binding.apply {
+                tvDiaryDetailDate.text = it.date
+                tvDiaryDetailContent.text = it.content
+            }
+            youtubeIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.youtubeUrl))
+            youtubeMusicIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.youtubeUrl))
+        }
+        viewModel.diary.observe(this, diaryObserver)
 
         balloon = setBalloon()
 
@@ -65,14 +79,10 @@ class DiaryDetailActivity : AppCompatActivity() {
             rvDiaryDetailEmotionList.layoutManager = LinearLayoutManager(this@DiaryDetailActivity)
 
             cvDiaryDetailYoutube.setOnClickListener {
-                val implicitIntent =
-                    Intent(Intent.ACTION_VIEW, Uri.parse("https://www." + data.youtubeUrl))
-                startActivity(implicitIntent)
+                startActivity(youtubeIntent)
             }
             cvDiaryDetailYoutubeMusic.setOnClickListener {
-                val implicitIntent =
-                    Intent(Intent.ACTION_VIEW, Uri.parse("https://music." + data.youtubeUrl))
-                startActivity(implicitIntent)
+                startActivity(youtubeMusicIntent)
             }
 
             tvDiaryDetailEmotionViewmore.setOnClickListener {
@@ -83,6 +93,7 @@ class DiaryDetailActivity : AppCompatActivity() {
         }
 
         setPopupButton()
+//        viewModel.getDiaryData()
     }
 
     private fun setPopupButton() {
