@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import konkuk.gdsc.memotion.domain.entity.diary.DiarySimple
 import konkuk.gdsc.memotion.databinding.ItemCalendarBinding
 import konkuk.gdsc.memotion.databinding.ItemDiaryBinding
+import konkuk.gdsc.memotion.databinding.ItemDiaryNullBinding
 import konkuk.gdsc.memotion.ui.diary.detail.DiaryDetailActivity
 
 class DiaryAdapter(
@@ -53,7 +54,7 @@ class DiaryAdapter(
     class CalendarViewHolder(
         private val binding: ItemCalendarBinding,
         private val fragment: Fragment,
-    ): RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         private var _listener: DateChangeListener? = null
         private val listener: DateChangeListener
@@ -63,13 +64,13 @@ class DiaryAdapter(
 
             setDateChangeListener(fragment as DiaryFragment)
 
-            binding.calendarDiary.setOnDateChangeListener { calendarView, year, month, dayOfMonth ->
+            binding.calendarDiary.setOnDateChangeListener { _, year, month, dayOfMonth ->
                 listener.dateChanged(year, month, dayOfMonth)
             }
         }
 
         interface DateChangeListener {
-            fun dateChanged(year:Int, month: Int, dayOfMonth: Int)
+            fun dateChanged(year: Int, month: Int, dayOfMonth: Int)
         }
 
         private fun setDateChangeListener(listener: DateChangeListener) {
@@ -77,39 +78,59 @@ class DiaryAdapter(
         }
     }
 
+    class EmptyDiaryViewHolder(
+        val binding: ItemDiaryNullBinding,
+    ) : RecyclerView.ViewHolder(binding.root)
+
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) 0 else 1
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType) {
-            0 ->{
+        return when (viewType) {
+            0 -> {
                 val calendarBinding: ItemCalendarBinding =
                     ItemCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 CalendarViewHolder(calendarBinding, fragment)
             }
 
             else -> {
-                val diaryBinding: ItemDiaryBinding =
-                    ItemDiaryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                DiaryViewHolder(diaryBinding, context)
+                if (data.isNotEmpty()) {
+                    val diaryBinding: ItemDiaryBinding =
+                        ItemDiaryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    DiaryViewHolder(diaryBinding, context)
+                } else {
+                    val diaryNullBinding: ItemDiaryNullBinding =
+                        ItemDiaryNullBinding.inflate(
+                            LayoutInflater.from(parent.context),
+                            parent,
+                            false
+                        )
+                    EmptyDiaryViewHolder(diaryNullBinding)
+                }
+
             }
         }
     }
 
-    override fun getItemCount() = data.size + 1
+    override fun getItemCount() = if (data.isNotEmpty()) data.size + 1 else 2
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(position) {
+        when (position) {
             0 -> {
                 val calendarViewHolder = holder as CalendarViewHolder
                 calendarViewHolder.bind()
             }
+
             else -> {
-                val diaryViewHolder = holder as DiaryViewHolder
-                diaryViewHolder.bind(data[position-1])
-                diaryViewHolder.binding.llItemDiaryTrash.setOnClickListener {
-                    removeData(holder.layoutPosition)
+                if (data.isNotEmpty()) {
+                    val diaryViewHolder = holder as DiaryViewHolder
+                    diaryViewHolder.bind(data[position - 1])
+                    diaryViewHolder.binding.llItemDiaryTrash.setOnClickListener {
+                        removeData(holder.layoutPosition)
+                    }
+                } else {
+                    holder as EmptyDiaryViewHolder
                 }
             }
         }
