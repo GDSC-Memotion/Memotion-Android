@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.viewModels
 import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.braodcast.AlertReceiver
 import konkuk.gdsc.memotion.databinding.FragmentUserBinding
@@ -25,6 +26,7 @@ class UserFragment : Fragment() {
     private var _binding: FragmentUserBinding? = null
     private val binding: FragmentUserBinding
         get() = requireNotNull(_binding) { "UserFragment's binding is null" }
+    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
