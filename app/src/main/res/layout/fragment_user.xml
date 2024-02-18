@@ -13,7 +13,7 @@
         style="@style/TITLE_TEXT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Page" />
+        android:text="@string/user_title" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:layout_width="83dp"
             android:layout_height="83dp"
             android:outlineSpotShadowColor="@color/white"
-            app:cardCornerRadius="20dp" />
+            app:cardCornerRadius="41dp" />
 
         <TextView
             android:id="@+id/tv_user_name"
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="박지원" />
+            android:text="@string/hint_user_profile_name" />
 
     </LinearLayout>
 
@@ -44,102 +44,52 @@
         android:layout_height="1dp"
         android:background="@color/orange_main" />
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="12dp">
 
-        <TimePicker
-            android:id="@+id/tp_time_setting"
+        <ImageView
+            android:id="@+id/iv_user_reminder_image"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/icon_bell_un" />
+
+        <TextView
+            android:id="@+id/tv_user_reminder_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:timePickerMode="spinner" />
+            android:layout_marginStart="8dp"
+            android:enabled="false"
+            android:textColor="@drawable/selector_reminder_text"
+            android:text="Reminder" />
+
+        <TextView
+            android:id="@+id/tv_user_reminder_time"
+            android:layout_width="44dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="7dp"
+            android:background="@drawable/shape_reminder_text"
+            android:gravity="center"
+            android:text="22:00"
+            android:enabled="false"
+            android:textColor="@drawable/selector_reminder_text"
+            android:textSize="12sp" />
 
         <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="#D9D9D9" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-        <LinearLayout
-            android:id="@+id/btn_alarm"
-            android:layout_width="match_parent"
+        <Switch
+            android:id="@+id/s_user_reminder"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp">
+            android:thumbTint="@color/white"
+            android:trackTint="@color/orange_main" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="Notices"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#D9D9D9" />
-
-        <LinearLayout
-            android:id="@+id/btn_alarm_cancel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="Notices"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#D9D9D9" />
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingVertical="12dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/icon_bell" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Reminder"
-                android:textColor="@color/gray800" />
-
-            <TextView
-                android:layout_width="44dp"
-                android:layout_height="22dp"
-                android:layout_marginStart="7dp"
-                android:background="@color/gray100"
-                android:gravity="center"
-                android:text="22:00"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </LinearLayout>

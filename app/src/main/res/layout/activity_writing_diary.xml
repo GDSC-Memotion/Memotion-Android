@@ -7,15 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.diary.create.WritingDiaryActivity">
 
-    <androidx.core.widget.NestedScrollView
+    <!--<androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/orange_background">
+        android:background="@color/orange_background">-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/orange_background">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -95,6 +96,11 @@
                 android:paddingHorizontal="13dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_writing_diary_post"
                 style="@style/BUTTON_TEXT"
@@ -103,9 +109,10 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/selector_background_button"
-                android:enabled="false" />
+                android:enabled="false"
+                android:layout_marginBottom="60dp"/>
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    <!--</androidx.core.widget.NestedScrollView>-->
 </FrameLayout>

@@ -3,26 +3,30 @@ package konkuk.gdsc.memotion.ui.user
 import android.Manifest
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.icu.util.Calendar
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.viewModels
+import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.braodcast.AlertReceiver
 import konkuk.gdsc.memotion.databinding.FragmentUserBinding
-import konkuk.gdsc.memotion.util.TAG
-import java.util.Calendar
+import konkuk.gdsc.memotion.util.calendarToStringNoti
+
 
 class UserFragment : Fragment() {
 
     private var _binding: FragmentUserBinding? = null
     private val binding: FragmentUserBinding
         get() = requireNotNull(_binding) { "UserFragment's binding is null" }
+    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,18 +42,35 @@ class UserFragment : Fragment() {
         val calendar: Calendar = Calendar.getInstance()
 
         binding.apply {
-            tpTimeSetting.setOnTimeChangedListener { timePicker, hourOfDay, minute ->
-                calendar.apply {
-                    set(Calendar.HOUR_OF_DAY, hourOfDay)
-                    set(Calendar.MINUTE, minute)
-                    set(Calendar.MILLISECOND, 0)
+            sUserReminder.setOnCheckedChangeListener { compoundButton, b ->
+                if (b) {
+                    startAlarm(calendar)
+                    tvUserReminderTime.isEnabled = true
+                    tvUserReminderTitle.isEnabled = true
+                    ivUserReminderImage.setImageResource(R.drawable.icon_bell)
+                } else {
+                    cancelAlarm()
+                    tvUserReminderTime.isEnabled = false
+                    tvUserReminderTitle.isEnabled = false
+                    ivUserReminderImage.setImageResource(R.drawable.icon_bell_un)
                 }
             }
-            btnAlarm.setOnClickListener {
-                startAlarm(calendar)
-            }
-            btnAlarmCancel.setOnClickListener {
-                cancelAlarm()
+
+            tvUserReminderTime.setOnClickListener{
+                val cal = Calendar.getInstance()
+
+                val timeSetListener =
+                    TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+                        calendar.apply {
+                            set(Calendar.HOUR_OF_DAY, hour)
+                            set(Calendar.MINUTE, minute)
+                            set(Calendar.MILLISECOND, 0)
+                        }
+
+                        binding.tvUserReminderTime.text = calendarToStringNoti(calendar)
+                    }
+
+                TimePickerDialog(context, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
             }
         }
     }
@@ -60,14 +81,12 @@ class UserFragment : Fragment() {
     }
 
     private fun startAlarm(c: Calendar) {
-        Log.d(TAG, "startAlarm: 퍼미션 전")
         if (!checkPermission()) {
             requireActivity().requestPermissions(
                 arrayOf(Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.SCHEDULE_EXACT_ALARM), 200
             )
             return
         }
-        Log.d(TAG, "startAlarm: 퍼미션 후")
 
         // AlarmManger 생성
         val alarmManager: AlarmManager =

@@ -5,16 +5,17 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import konkuk.gdsc.memotion.domain.entity.diary.DiarySimple
 import konkuk.gdsc.memotion.databinding.ItemCalendarBinding
 import konkuk.gdsc.memotion.databinding.ItemDiaryBinding
 import konkuk.gdsc.memotion.ui.diary.detail.DiaryDetailActivity
-import konkuk.gdsc.memotion.util.dpToPx
 
 class DiaryAdapter(
     private val context: Context,
     private var data: List<DiarySimple>,
+    private val fragment: Fragment
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class DiaryViewHolder(
@@ -39,19 +40,42 @@ class DiaryAdapter(
 
             binding.ivItemDiaryEmotion.setImageResource(item.emotion.getResource())
 
-            if(item.imageUrl?.isNotBlank() == true) {
+            /*if(item.imageUrl?.isNotBlank() == true) {
                 binding.ivItemDiaryImage.layoutParams.height =
                     (context.resources.displayMetrics.widthPixels - dpToPx(context, 51f)).toInt()
                 binding.ivItemDiaryImage.visibility = View.VISIBLE
             } else {
                 binding.ivItemDiaryImage.visibility = View.GONE
-            }
+            }*/
         }
     }
 
     class CalendarViewHolder(
-        val binding: ItemCalendarBinding,
-    ): RecyclerView.ViewHolder(binding.root)
+        private val binding: ItemCalendarBinding,
+        private val fragment: Fragment,
+    ): RecyclerView.ViewHolder(binding.root) {
+
+        private var _listener: DateChangeListener? = null
+        private val listener: DateChangeListener
+            get() = requireNotNull(_listener) { "CalendarViewHolder's DateChangeListener is null" }
+
+        fun bind() {
+
+            setDateChangeListener(fragment as DiaryFragment)
+
+            binding.calendarDiary.setOnDateChangeListener { calendarView, year, month, dayOfMonth ->
+                listener.dateChanged(year, month, dayOfMonth)
+            }
+        }
+
+        interface DateChangeListener {
+            fun dateChanged(year:Int, month: Int, dayOfMonth: Int)
+        }
+
+        private fun setDateChangeListener(listener: DateChangeListener) {
+            this._listener = listener
+        }
+    }
 
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) 0 else 1
@@ -62,7 +86,7 @@ class DiaryAdapter(
             0 ->{
                 val calendarBinding: ItemCalendarBinding =
                     ItemCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                CalendarViewHolder(calendarBinding)
+                CalendarViewHolder(calendarBinding, fragment)
             }
 
             else -> {
@@ -78,7 +102,8 @@ class DiaryAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(position) {
             0 -> {
-                holder as CalendarViewHolder
+                val calendarViewHolder = holder as CalendarViewHolder
+                calendarViewHolder.bind()
             }
             else -> {
                 val diaryViewHolder = holder as DiaryViewHolder
@@ -96,5 +121,10 @@ class DiaryAdapter(
         beforeData.removeAt(dataPosition)
         data = beforeData.toList()
         notifyItemRemoved(position)
+    }
+
+    fun updateData(newData: List<DiarySimple>) {
+        data = newData
+        notifyDataSetChanged()
     }
 }
