@@ -38,6 +38,7 @@ class DiaryViewModel @Inject constructor(
     }
 
     fun getDailyDiary(date: String) {
+//        _dailyDiary.value = DiarySimple.sample    // for test
         viewModelScope.launch {
             diaryRepository.getDailyDiary(date)
                 .onSuccess {
@@ -65,6 +66,17 @@ class DiaryViewModel @Inject constructor(
         }
     }
 
+    fun deleteDiary(diaryId: Long) {
+        viewModelScope.launch {
+            diaryRepository.deleteDiary(diaryId)
+                .onSuccess {
+                    Log.d(NETWORK, "DiaryViewModel - deleteDiary() called\nsuccess")
+                }
+                .onFailure {
+                    Log.d(NETWORK, "DiaryViewModel - deleteDiary() called\nfailed\nbecause${it}")
+                }
+        }
+    }
 
 
 }
