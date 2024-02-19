@@ -21,6 +21,7 @@ import konkuk.gdsc.memotion.domain.entity.diary.DiaryWriting
 import konkuk.gdsc.memotion.databinding.ActivityWritingDiaryBinding
 import konkuk.gdsc.memotion.domain.entity.emotion.Emotion
 import konkuk.gdsc.memotion.domain.entity.image.ImageType
+import konkuk.gdsc.memotion.ui.diary.detail.DiaryDetailActivity
 import konkuk.gdsc.memotion.ui.diary.dialog.FragmentEmotionCheck
 import konkuk.gdsc.memotion.ui.diary.dialog.FragmentEmotionSelect
 import konkuk.gdsc.memotion.ui.diary.dialog.FragmentLoading
@@ -45,11 +46,26 @@ class WritingDiaryActivity : AppCompatActivity() {
         val versionObserver = Observer<DiaryVersion> {
             when (it) {
                 DiaryVersion.WRITING -> setWritingDiary()
-                DiaryVersion.EDITING -> setEditingDiary()
+                DiaryVersion.EDITING -> viewModel.setEditingDiaryData(intent.getLongExtra(DiaryDetailActivity.INTENT_DIARY_ID, 1))
+            }
+        }
+
+        val diaryDataObserver = Observer<DiaryWriting> {
+            binding.apply {
+                tvWritingDiaryDate.text = it.date
+
+                imageAdapter.setData(it.imageUrls.toMutableList())
+
+                etWritingDiaryContent.setText(it.content)
+
+                btnWritingDiaryPost.text = this@WritingDiaryActivity.getString(
+                    R.string.edit
+                )
             }
         }
 
         viewModel.version.observe(this, versionObserver)
+        viewModel.diaryData.observe(this, diaryDataObserver)
 
         viewModel.setVersion(intent.getIntExtra(MainActivity.INTENT_VERSION, 0))
 
@@ -161,26 +177,6 @@ class WritingDiaryActivity : AppCompatActivity() {
             btnWritingDiaryPost.text = this@WritingDiaryActivity.getString(R.string.post)
         }
 
-    }
-
-    private fun setEditingDiary() {
-        val data =
-            viewModel.diaryData.value ?: DiaryWriting(
-                date = calendarToStringWithoutTime(Calendar.getInstance()),
-                imageUrls = listOf(),
-                content = ""
-            )
-        binding.apply {
-            tvWritingDiaryDate.text = data.date
-
-            imageAdapter.setData(data.imageUrls.toMutableList())
-
-            etWritingDiaryContent.setText(data.content)
-
-            btnWritingDiaryPost.text = this@WritingDiaryActivity.getString(
-                R.string.edit
-            )
-        }
     }
 
 }

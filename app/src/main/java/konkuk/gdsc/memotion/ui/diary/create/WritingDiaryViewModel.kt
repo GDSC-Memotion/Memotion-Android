@@ -90,4 +90,17 @@ class WritingDiaryViewModel @Inject constructor(
     fun updateImages(images: List<MultipartBody.Part>) {
         _newImages.value = images.toMutableList()
     }
+
+    fun setEditingDiaryData(diaryId: Long) {
+        viewModelScope.launch {
+            diaryRepository.getDetailDiary(diaryId)
+                .onSuccess {
+                    Log.d(NETWORK, "WritingDiaryViewModel - setEditingDiaryData() called\nsuccess")
+                    _diaryData.value = it.result.asDiaryWriting()
+                }
+                .onFailure {
+                    Log.d(NETWORK, "WritingDiaryViewModel - setEditingDiaryData() called\nfailed\nbecause${it}")
+                }
+        }
+    }
 }
