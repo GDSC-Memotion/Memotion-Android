@@ -25,6 +25,7 @@ data class ResponseGetDailyDiary(
     ) {
         fun asDiarySimple(): DiarySimple {
             return DiarySimple(
+                diaryId = id,
                 date = description,
                 emotion = Emotion.values()[mood],
                 content = description,
