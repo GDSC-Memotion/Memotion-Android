@@ -36,12 +36,14 @@
                 android:background="@color/gray200" />
 
             <ImageView
+                android:id="@+id/iv_emotion_check_emoji"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="15dp"
                 android:src="@drawable/icon_emoji_anger" />
 
             <TextView
+                android:id="@+id/tv_emotion_check_emoji"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
