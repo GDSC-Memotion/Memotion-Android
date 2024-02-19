@@ -23,10 +23,10 @@ interface DiaryApi {
     @Multipart
     @POST("diary")
     suspend fun postDiary(
-        @Part
+        @Part("request")
         request: RequestPostDiary,
         @Part
-        imageUris: List<MultipartBody.Part?>
+        images: List<MultipartBody.Part>
     ): ResponsePostDiary
 
     @Multipart
@@ -34,10 +34,10 @@ interface DiaryApi {
     suspend fun editDiary(
         @Path("diaryId")
         diaryId: Long,
-        @Part
+        @Part("request")
         request: RequestPutDiary,
         @Part
-        imageUris: List<MultipartBody.Part?>,
+        images: List<MultipartBody.Part>,
     ): ResponsePutDiary
 
     @DELETE("diary/{diaryId}")
