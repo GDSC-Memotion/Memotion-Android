@@ -1,6 +1,7 @@
 package konkuk.gdsc.memotion.ui.diary.detail
 
 import android.content.Intent
+import android.icu.util.Calendar
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,13 +19,14 @@ import konkuk.gdsc.memotion.MainActivity
 import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.domain.entity.diary.DiaryDetail
 import konkuk.gdsc.memotion.databinding.ActivityDiaryDetailBinding
+import konkuk.gdsc.memotion.ui.diary.DiaryAdapter
 import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryActivity
+import konkuk.gdsc.memotion.util.calendarToString
 
 @AndroidEntryPoint
 class DiaryDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDiaryDetailBinding
-    private val data = DiaryDetail.sample
     private lateinit var balloon: Balloon
     private var emotionState = false
     private val viewModel: DiaryDetailViewModel by viewModels()
@@ -37,9 +39,24 @@ class DiaryDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val diaryObserver = Observer<DiaryDetail> {
+            val titleEmotion =
+                requireNotNull(it.emotions.find { it.isTitle }) { "emotion data is null" }
             binding.apply {
-                tvDiaryDetailDate.text = it.date
+//                tvDiaryDetailDate.text = it.date
+                tvDiaryDetailDate.text = calendarToString(Calendar.getInstance())
                 tvDiaryDetailContent.text = it.content
+
+                tvDiaryDetailEmotion.text = titleEmotion.emotion.toString()
+                tvHiddenEmotion.text = titleEmotion.emotion.toString()
+
+                ivDiaryDetailEmotion.setImageResource(
+                    titleEmotion.emotion.getResource()
+                )
+                pvDiaryDetailPercentage.progress = (titleEmotion.percentage * 100)
+                tvDiaryDetailPercentageNumber.text =
+                    "${String.format("%.2f", titleEmotion?.percentage)} %"
+
+                rvDiaryDetailEmotionList.adapter = EmotionAdapter(it.emotions)
             }
             youtubeIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.youtubeUrl))
             youtubeMusicIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.youtubeUrl))
@@ -49,8 +66,6 @@ class DiaryDetailActivity : AppCompatActivity() {
         balloon = setBalloon()
 
         setDetailVisibility()
-        val titleEmotion =
-            requireNotNull(data.emotions.find { it.isTitle }) { "emotion data is null" }
 
         binding.apply {
             ivDiaryDetailBack.setOnClickListener {
@@ -60,23 +75,6 @@ class DiaryDetailActivity : AppCompatActivity() {
             ivDiaryDetailMenu.setOnClickListener {
                 balloon.showAlignBottom(binding.ivDiaryDetailMenu)
             }
-
-            tvDiaryDetailDate.text = data.date
-            tvHiddenEmotion.text = titleEmotion.emotion.toString()
-
-            tvDiaryDetailContent.text = data.content
-
-            ivDiaryDetailEmotion.setImageResource(
-                titleEmotion.emotion.getResource()
-            )
-
-            tvDiaryDetailEmotion.text = titleEmotion.emotion.toString()
-            pvDiaryDetailPercentage.progress = (data.emotions[0].percentage * 100)
-            tvDiaryDetailPercentageNumber.text =
-                "${String.format("%.2f", titleEmotion?.percentage)} %"
-
-            rvDiaryDetailEmotionList.adapter = EmotionAdapter(data.emotions)
-            rvDiaryDetailEmotionList.layoutManager = LinearLayoutManager(this@DiaryDetailActivity)
 
             cvDiaryDetailYoutube.setOnClickListener {
                 startActivity(youtubeIntent)
@@ -93,7 +91,7 @@ class DiaryDetailActivity : AppCompatActivity() {
         }
 
         setPopupButton()
-//        viewModel.getDiaryData()
+        viewModel.getDiaryData(intent.getLongExtra(DiaryAdapter.INTENT_DIARY_ID, 1))
     }
 
     private fun setPopupButton() {
@@ -106,6 +104,7 @@ class DiaryDetailActivity : AppCompatActivity() {
         editButton.setOnClickListener {
             val intent =
                 Intent(this@DiaryDetailActivity, WritingDiaryActivity::class.java)
+            intent.putExtra(INTENT_DIARY_ID, viewModel.diary.value?.diaryId ?: 1)
             intent.putExtra(MainActivity.INTENT_VERSION, 1)
             startActivity(intent)
             balloon.dismiss()
@@ -149,4 +148,8 @@ class DiaryDetailActivity : AppCompatActivity() {
         .setBalloonAnimation(BalloonAnimation.ELASTIC)
         .setLifecycleOwner(this@DiaryDetailActivity)
         .build()
+
+    companion object {
+        const val INTENT_DIARY_ID = "diaryId"
+    }
 }
