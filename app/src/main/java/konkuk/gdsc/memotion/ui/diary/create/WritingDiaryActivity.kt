@@ -51,16 +51,18 @@ class WritingDiaryActivity : AppCompatActivity() {
         }
 
         val diaryDataObserver = Observer<DiaryWriting> {
-            binding.apply {
-                tvWritingDiaryDate.text = it.date
+            if (viewModel.version.value == DiaryVersion.EDITING) {
+                binding.apply {
+                    tvWritingDiaryDate.text = it.date
 
-                imageAdapter.setData(it.imageUrls.toMutableList())
+                    imageAdapter.setData(it.imageUrls.toMutableList())
 
-                etWritingDiaryContent.setText(it.content)
+                    etWritingDiaryContent.setText(it.content)
 
-                btnWritingDiaryPost.text = this@WritingDiaryActivity.getString(
-                    R.string.edit
-                )
+                    btnWritingDiaryPost.text = this@WritingDiaryActivity.getString(
+                        R.string.edit
+                    )
+                }
             }
         }
 
