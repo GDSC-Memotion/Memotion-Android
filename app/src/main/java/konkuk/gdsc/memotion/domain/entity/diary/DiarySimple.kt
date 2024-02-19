@@ -18,28 +18,28 @@ data class DiarySimple(
                 calendarToString(Calendar.getInstance()),
                 Emotion.ANGER,
                 "안녕하세요1",
-                listOf(""),
+                listOf(),
             ),
             DiarySimple(
                 1,
                 calendarToString(Calendar.getInstance()),
                 Emotion.ANGER,
                 "안녕하세요2",
-                listOf(""),
+                listOf(),
             ),
             DiarySimple(
                 1,
                 calendarToString(Calendar.getInstance()),
                 Emotion.ANGER,
                 "안녕하세요3",
-                listOf(""),
+                listOf(),
             ),
             DiarySimple(
                 1,
                 calendarToString(Calendar.getInstance()),
                 Emotion.ANGER,
                 "안녕하세요4",
-                listOf(""),
+                listOf(),
             ),
         )
     }
