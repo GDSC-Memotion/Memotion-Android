@@ -9,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="30dp">
 
         <LinearLayout
             android:id="@+id/ll_diary_detail_title_bar"
@@ -168,9 +169,9 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             android:textSize="12sp"
+                            android:visibility="gone"
                             app:layout_constraintStart_toStartOf="@id/iv_diary_detail_emotion"
-                            app:layout_constraintTop_toBottomOf="@id/iv_diary_detail_emotion"
-                            android:visibility="gone"/>
+                            app:layout_constraintTop_toBottomOf="@id/iv_diary_detail_emotion" />
 
                         <com.skydoves.progressview.ProgressView
                             android:id="@+id/pv_diary_detail_percentage"
@@ -223,7 +224,8 @@
                             android:id="@+id/rv_diary_detail_emotion_list"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp" />
+                            android:layout_marginTop="10dp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
