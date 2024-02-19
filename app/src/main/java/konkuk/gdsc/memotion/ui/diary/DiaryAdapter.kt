@@ -7,17 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import konkuk.gdsc.memotion.domain.entity.diary.DiarySimple
 import konkuk.gdsc.memotion.databinding.ItemCalendarBinding
 import konkuk.gdsc.memotion.databinding.ItemDiaryBinding
 import konkuk.gdsc.memotion.databinding.ItemDiaryNullBinding
 import konkuk.gdsc.memotion.ui.diary.detail.DiaryDetailActivity
+import konkuk.gdsc.memotion.util.dpToPx
 
 class DiaryAdapter(
     private val context: Context,
     private var data: List<DiarySimple>,
     private val fragment: Fragment
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var _listener: DeleteDiaryListener? = null
+    private val listener: DeleteDiaryListener
+        get() = requireNotNull(_listener) { "DiaryAdapter's DeleteDiaryListener is null" }
 
     class DiaryViewHolder(
         val binding: ItemDiaryBinding,
@@ -36,18 +42,24 @@ class DiaryAdapter(
 
             binding.clItemDiary.setOnClickListener {
                 val intent = Intent(context, DiaryDetailActivity::class.java)
+                intent.putExtra(INTENT_DIARY_ID, item.diaryId)
                 context.startActivity(intent)
             }
 
             binding.ivItemDiaryEmotion.setImageResource(item.emotion.getResource())
+            binding.ivItemDiaryImage.layoutParams.height =
+                (context.resources.displayMetrics.widthPixels - dpToPx(context, 51f)).toInt()
 
-            /*if(item.imageUrl?.isNotBlank() == true) {
-                binding.ivItemDiaryImage.layoutParams.height =
-                    (context.resources.displayMetrics.widthPixels - dpToPx(context, 51f)).toInt()
+            if (item.imageUrl.isNotEmpty()) {
                 binding.ivItemDiaryImage.visibility = View.VISIBLE
+
+                Glide.with(context)
+                    .load(item.imageUrl[0])
+                    .centerCrop()
+                    .into(binding.ivItemDiaryImage)
             } else {
                 binding.ivItemDiaryImage.visibility = View.GONE
-            }*/
+            }
         }
     }
 
@@ -124,10 +136,12 @@ class DiaryAdapter(
 
             else -> {
                 if (data.isNotEmpty()) {
+                    setDeleteDiaryListener(fragment as DiaryFragment)
                     val diaryViewHolder = holder as DiaryViewHolder
                     diaryViewHolder.bind(data[position - 1])
                     diaryViewHolder.binding.llItemDiaryTrash.setOnClickListener {
                         removeData(holder.layoutPosition)
+                        listener.deleteDiary(data[position - 1].diaryId)
                     }
                 } else {
                     holder as EmptyDiaryViewHolder
@@ -148,4 +162,17 @@ class DiaryAdapter(
         data = newData
         notifyDataSetChanged()
     }
+
+    interface DeleteDiaryListener {
+        fun deleteDiary(diaryId: Long)
+    }
+
+    private fun setDeleteDiaryListener(listener: DeleteDiaryListener) {
+        this._listener = listener
+    }
+
+    companion object {
+        const val INTENT_DIARY_ID = "diaryId"
+    }
+
 }

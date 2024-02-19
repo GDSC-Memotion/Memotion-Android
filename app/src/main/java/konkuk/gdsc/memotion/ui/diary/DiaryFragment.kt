@@ -17,7 +17,8 @@ import konkuk.gdsc.memotion.util.dpToPx
 import konkuk.gdsc.memotion.util.view.setOnSingleClickListener
 
 @AndroidEntryPoint
-class DiaryFragment : Fragment(), DiaryAdapter.CalendarViewHolder.DateChangeListener {
+class DiaryFragment
+    : Fragment(), DiaryAdapter.CalendarViewHolder.DateChangeListener, DiaryAdapter.DeleteDiaryListener {
 
     private var _binding: FragmentDiaryBinding? = null
     private val binding: FragmentDiaryBinding
@@ -101,5 +102,10 @@ class DiaryFragment : Fragment(), DiaryAdapter.CalendarViewHolder.DateChangeList
         cal.set(Calendar.MONTH, month)
         cal.set(Calendar.DATE, dayOfMonth)
         viewModel.changeCurrentDay(cal)
+    }
+
+    override fun deleteDiary(diaryId: Long) {
+//        viewModel.deleteDiary(diaryId)
+//        viewModel.getDailyDiary(dayConverter.format(viewModel.currentDay.value))
     }
 }
