@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
+import konkuk.gdsc.memotion.databinding.ActivityCustomtomBinding
 import konkuk.gdsc.memotion.databinding.ActivityMainBinding
 import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryActivity
 
@@ -31,6 +32,11 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra(INTENT_VERSION, 0)
                 startActivity(intent)
             }
+        }
+
+        binding.ivNotification.setOnClickListener {
+            var intent = Intent(this, CustomtomActivity::class.java)
+            startActivity(intent)
         }
     }
 
