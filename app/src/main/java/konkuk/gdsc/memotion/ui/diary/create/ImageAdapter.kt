@@ -116,8 +116,7 @@ class ImageAdapter(
         val dataSize = data.size - 1
         val urlSize = urls.size
         if (dataSize > MAX_IMAGE) return false
-        if (dataSize + urlSize > MAX_IMAGE) return false
-        return true
+        return dataSize + urlSize <= MAX_IMAGE
     }
 
     fun setData(newData: MutableList<String>) {
