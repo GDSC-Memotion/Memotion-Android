@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import konkuk.gdsc.memotion.domain.entity.diary.DiarySimple
 import konkuk.gdsc.memotion.databinding.ItemCalendarBinding
 import konkuk.gdsc.memotion.databinding.ItemDiaryBinding
-import konkuk.gdsc.memotion.databinding.ItemDiaryNullBinding
 import konkuk.gdsc.memotion.ui.diary.detail.DiaryDetailActivity
 import konkuk.gdsc.memotion.util.dpToPx
 
@@ -30,6 +29,9 @@ class DiaryAdapter(
         private val context: Context,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: DiarySimple) {
+            binding.llcDiaryNull.visibility = View.GONE
+            binding.clDiaryItem.visibility = View.VISIBLE
+
             if (this.layoutPosition == 1) {
                 binding.vFirst.visibility = View.VISIBLE
                 binding.vSecond.visibility = View.INVISIBLE
@@ -61,6 +63,17 @@ class DiaryAdapter(
                 binding.ivItemDiaryImage.visibility = View.GONE
             }
         }
+
+        fun bindEmpty() {
+            binding.apply {
+                clDiaryItem.visibility = View.GONE
+                llcDiaryNull.visibility = View.VISIBLE
+            }
+        }
+
+        companion object {
+            const val INTENT_DIARY_ID = "diaryId"
+        }
     }
 
     class CalendarViewHolder(
@@ -90,10 +103,6 @@ class DiaryAdapter(
         }
     }
 
-    class EmptyDiaryViewHolder(
-        val binding: ItemDiaryNullBinding,
-    ) : RecyclerView.ViewHolder(binding.root)
-
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) 0 else 1
     }
@@ -107,20 +116,9 @@ class DiaryAdapter(
             }
 
             else -> {
-                if (data.isNotEmpty()) {
-                    val diaryBinding: ItemDiaryBinding =
-                        ItemDiaryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                    DiaryViewHolder(diaryBinding, context)
-                } else {
-                    val diaryNullBinding: ItemDiaryNullBinding =
-                        ItemDiaryNullBinding.inflate(
-                            LayoutInflater.from(parent.context),
-                            parent,
-                            false
-                        )
-                    EmptyDiaryViewHolder(diaryNullBinding)
-                }
-
+                val diaryBinding: ItemDiaryBinding =
+                    ItemDiaryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                DiaryViewHolder(diaryBinding, context)
             }
         }
     }
@@ -135,16 +133,16 @@ class DiaryAdapter(
             }
 
             else -> {
+                setDeleteDiaryListener(fragment as DiaryFragment)
+                val diaryViewHolder = holder as DiaryViewHolder
                 if (data.isNotEmpty()) {
-                    setDeleteDiaryListener(fragment as DiaryFragment)
-                    val diaryViewHolder = holder as DiaryViewHolder
                     diaryViewHolder.bind(data[position - 1])
                     diaryViewHolder.binding.llItemDiaryTrash.setOnClickListener {
                         removeData(holder.layoutPosition)
                         listener.deleteDiary(data[position - 1].diaryId)
                     }
                 } else {
-                    holder as EmptyDiaryViewHolder
+                    diaryViewHolder.bindEmpty()
                 }
             }
         }
@@ -169,10 +167,6 @@ class DiaryAdapter(
 
     private fun setDeleteDiaryListener(listener: DeleteDiaryListener) {
         this._listener = listener
-    }
-
-    companion object {
-        const val INTENT_DIARY_ID = "diaryId"
     }
 
 }

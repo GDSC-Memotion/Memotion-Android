@@ -54,7 +54,7 @@ class DiaryDetailActivity : AppCompatActivity() {
                 )
                 pvDiaryDetailPercentage.progress = (titleEmotion.percentage * 100)
                 tvDiaryDetailPercentageNumber.text =
-                    "${String.format("%.2f", titleEmotion?.percentage)} %"
+                    "${String.format("%.2f", titleEmotion.percentage)} %"
 
                 rvDiaryDetailEmotionList.adapter = EmotionAdapter(it.emotions)
             }
@@ -91,7 +91,7 @@ class DiaryDetailActivity : AppCompatActivity() {
         }
 
         setPopupButton()
-        viewModel.getDiaryData(intent.getLongExtra(DiaryAdapter.INTENT_DIARY_ID, 1))
+        viewModel.getDiaryData(intent.getLongExtra(DiaryAdapter.DiaryViewHolder.INTENT_DIARY_ID, 1))
     }
 
     private fun setPopupButton() {
