@@ -10,8 +10,6 @@ plugins {
     // Hilt-Dagger
     id("com.google.dagger.hilt.android")
     kotlin("kapt")
-
-//    id("kotlin-android")
 }
 
 android {

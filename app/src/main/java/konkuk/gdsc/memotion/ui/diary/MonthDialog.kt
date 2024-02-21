@@ -62,12 +62,12 @@ fun MonthDialog(
         )
         Column(
             modifier = Modifier
-                .fillMaxWidth()
                 .height(200.dp)
                 .background(
                     color = Color.White,
                     shape = RoundedCornerShape(size = 16.dp),
-                ),
+                )
+                .padding(30.dp),
             verticalArrangement = Arrangement.Center
         ) {
             for (month in 1..10 step (3)) {
@@ -78,7 +78,6 @@ fun MonthDialog(
                         Column(
                             modifier = Modifier.padding(3.dp)
                         ) {
-
                             if (currentDate.monthValue == month + i) {
                                 FilledButton(
                                     month = monthList[month + i - 1],
@@ -96,7 +95,6 @@ fun MonthDialog(
                             }
                         }
                     }
-
                 }
             }
         }
@@ -108,18 +106,6 @@ fun FilledButton(
     month: String,
     onClick: () -> Unit
 ) {
-//    Button(
-//        modifier = Modifier.requiredWidth(100.dp),
-//        onClick = { onClick() }
-//    ) {
-//        Text(
-//            text = month,
-//            fontSize = 10.sp,
-//            fontWeight = FontWeight.Normal,
-//            textAlign = TextAlign.Center,
-//            color = Color.White
-//        )
-//    }
     Text(
         text = month,
         fontSize = 14.sp,
@@ -143,18 +129,6 @@ fun OutlinedButton(
     month: String,
     onClick: () -> Unit
 ) {
-//    OutlinedButton(
-//        modifier = Modifier.requiredWidth(100.dp),
-//        onClick = { onClick() }
-//    ) {
-//        Text(
-//            text = month,
-//            fontSize = 10.sp,
-//            fontWeight = FontWeight.Normal,
-//            textAlign = TextAlign.Center,
-//            color = Color.Black
-//        )
-//    }
     Text(
         text = month,
         fontSize = 14.sp,
