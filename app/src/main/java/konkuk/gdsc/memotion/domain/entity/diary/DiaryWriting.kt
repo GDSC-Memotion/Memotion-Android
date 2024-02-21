@@ -8,6 +8,13 @@ data class DiaryWriting(
     val imageUrls: List<String> = listOf(),
     val content: String,
 ) {
+    fun asDiaryWithoutImages(): DiaryWithoutImage {
+        return DiaryWithoutImage(
+            date = date,
+            content = content
+        )
+    }
+
     companion object {
         val sample = DiaryWriting(
             calendarToString(Calendar.getInstance()),

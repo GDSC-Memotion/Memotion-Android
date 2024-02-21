@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.databinding.FragmentEmotionCheckBinding
+import konkuk.gdsc.memotion.domain.entity.emotion.Emotion
 import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryViewModel
 import konkuk.gdsc.memotion.util.TAG
 
@@ -35,6 +37,12 @@ class FragmentEmotionCheck(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val emotionResultObserver = Observer<Emotion> {
+            binding.ivEmotionCheckEmoji.setImageResource(it.getResource())
+            binding.tvEmotionCheckEmoji.text = it.toString()
+        }
+        viewModel.emotionResult.observe(viewLifecycleOwner, emotionResultObserver)
 
         Log.d(TAG, "FragmentEmotionCheck - onViewCreated() called")
         binding.apply {

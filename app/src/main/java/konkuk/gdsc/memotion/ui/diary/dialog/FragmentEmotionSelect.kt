@@ -1,7 +1,6 @@
 package konkuk.gdsc.memotion.ui.diary.dialog
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.databinding.FragmentEmotionSelectBinding
 import konkuk.gdsc.memotion.domain.entity.emotion.Emotion
 import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryViewModel
-import konkuk.gdsc.memotion.util.TAG
 
 @AndroidEntryPoint
 class FragmentEmotionSelect(
@@ -33,56 +31,66 @@ class FragmentEmotionSelect(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d(TAG, "FragmentEmotionSelect - onCreateView() called")
         _binding = FragmentEmotionSelectBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d(TAG, "FragmentEmotionSelect - onViewCreated() called")
+
+        val emotionResultObserver = Observer<Emotion> {
+            when (it) {
+                Emotion.ANGER -> binding.rbEmotion1.isChecked = true
+                Emotion.DISGUST -> binding.rbEmotion2.isChecked = true
+                Emotion.FEAR -> binding.rbEmotion3.isChecked = true
+                Emotion.JOY -> binding.rbEmotion4.isChecked = true
+                Emotion.NEUTRAL -> binding.rbEmotion5.isChecked = true
+                Emotion.SADNESS -> binding.rbEmotion6.isChecked = true
+                Emotion.SURPRISE -> binding.rbEmotion7.isChecked = true
+            }
+            binding.btnEmotionSelect.isEnabled = true
+        }
+        viewModel.emotionResult.observe(viewLifecycleOwner, emotionResultObserver)
+
         binding.apply {
             llEmotionSelectBackground.setOnClickListener {}
 
             btnEmotionSelect.setOnClickListener {
-                emotinoResult.value?.let { btnSelect(it) }
+//                viewModel.setEmotionResult(emotinoResult.value ?: Emotion.ANGER)
+                btnSelect(Emotion.ANGER)
+//                emotinoResult.value?.let { btnSelect(it) }
             }
 
             rbEmotion1.setOnClickListener {
                 rgEmotionSelect2.clearCheck()
-                emotinoResult.value = getEmotionResult(it.id)
+                viewModel.setEmotionResult(getEmotionResult(it.id))
             }
             rbEmotion2.setOnClickListener {
                 rgEmotionSelect2.clearCheck()
-                emotinoResult.value = getEmotionResult(it.id)
+                viewModel.setEmotionResult(getEmotionResult(it.id))
             }
             rbEmotion3.setOnClickListener {
                 rgEmotionSelect2.clearCheck()
-                emotinoResult.value = getEmotionResult(it.id)
+                viewModel.setEmotionResult(getEmotionResult(it.id))
             }
             rbEmotion4.setOnClickListener {
-                emotinoResult.value = getEmotionResult(it.id)
+                viewModel.setEmotionResult(getEmotionResult(it.id))
                 rgEmotionSelect2.clearCheck()
             }
             rbEmotion5.setOnClickListener {
-                emotinoResult.value = getEmotionResult(it.id)
+                viewModel.setEmotionResult(getEmotionResult(it.id))
                 rgEmotionSelect1.clearCheck()
             }
             rbEmotion6.setOnClickListener {
-                emotinoResult.value = getEmotionResult(it.id)
+                viewModel.setEmotionResult(getEmotionResult(it.id))
                 rgEmotionSelect1.clearCheck()
             }
             rbEmotion7.setOnClickListener {
-                emotinoResult.value = getEmotionResult(it.id)
+                viewModel.setEmotionResult(getEmotionResult(it.id))
                 rgEmotionSelect1.clearCheck()
             }
 
         }
-
-        val observer = Observer<Emotion> {
-            binding.btnEmotionSelect.isEnabled = true
-        }
-        emotinoResult.observe(viewLifecycleOwner, observer)
     }
 
     override fun onDestroyView() {
