@@ -17,7 +17,8 @@ import konkuk.gdsc.memotion.util.dpToPx
 import konkuk.gdsc.memotion.util.view.setOnSingleClickListener
 
 @AndroidEntryPoint
-class DiaryFragment : Fragment(), DiaryAdapter.CalendarViewHolder.DateChangeListener {
+class DiaryFragment
+    : Fragment(), DiaryAdapter.CalendarViewHolder.DateChangeListener, DiaryAdapter.DeleteDiaryListener {
 
     private var _binding: FragmentDiaryBinding? = null
     private val binding: FragmentDiaryBinding
@@ -71,7 +72,7 @@ class DiaryFragment : Fragment(), DiaryAdapter.CalendarViewHolder.DateChangeList
         val swipeHelperCallback = SwipeHelperCallback(diaryAdapter).apply {
             // 스와이프한 뒤 고정시킬 위치 지정
             val size = dpToPx(requireActivity(), 51f)
-            setClamp((resources.displayMetrics.widthPixels.toFloat() - size) / 4)    // 1080 / 4 = 270
+            setClamp((resources.displayMetrics.widthPixels.toFloat() - size) / 6)    // 1080 / 4 = 270
         }
 
         ItemTouchHelper(swipeHelperCallback).attachToRecyclerView(binding.rvDiaryList)
@@ -81,8 +82,6 @@ class DiaryFragment : Fragment(), DiaryAdapter.CalendarViewHolder.DateChangeList
             swipeHelperCallback.removePreviousClamp(binding.rvDiaryList)
             false
         }
-
-        viewModel.getDailyDiary(dayConverter.format(viewModel.currentDay.value))
     }
 
     override fun onDestroyView() {
@@ -101,5 +100,10 @@ class DiaryFragment : Fragment(), DiaryAdapter.CalendarViewHolder.DateChangeList
         cal.set(Calendar.MONTH, month)
         cal.set(Calendar.DATE, dayOfMonth)
         viewModel.changeCurrentDay(cal)
+    }
+
+    override fun deleteDiary(diaryId: Long) {
+//        viewModel.deleteDiary(diaryId)
+//        viewModel.getDailyDiary(dayConverter.format(viewModel.currentDay.value))
     }
 }

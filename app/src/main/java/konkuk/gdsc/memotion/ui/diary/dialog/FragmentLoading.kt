@@ -9,8 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.databinding.FragmentLoadingBinding
+import konkuk.gdsc.memotion.domain.entity.emotion.Emotion
 import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryViewModel
 import konkuk.gdsc.memotion.util.TAG
 
@@ -35,9 +37,16 @@ class FragmentLoading(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Handler(Looper.getMainLooper()).postDelayed({
+        val emotionObserver = Observer<Emotion> {
             loading()
-        }, 5000)
+        }
+        viewModel.emotionResult.observe(viewLifecycleOwner, emotionObserver)
+
+        viewModel.postDiary()
+
+        /*Handler(Looper.getMainLooper()).postDelayed({
+            loading()
+        }, 5000)*/
 
     }
 
