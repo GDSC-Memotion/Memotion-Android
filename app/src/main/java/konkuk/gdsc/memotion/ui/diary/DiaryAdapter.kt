@@ -97,14 +97,6 @@ class DiaryAdapter(
 
             binding.customCalendar.setContent {
                 CalendarCustom()
-//                CalendarTheme {
-//                    Surface(
-//                        modifier = Modifier.fillMaxSize(),
-//                        color = Color.White
-//                    ) {
-//                        CalendarCustom()
-//                    }
-//                }
             }
 
             setDateChangeListener(fragment as DiaryFragment)
