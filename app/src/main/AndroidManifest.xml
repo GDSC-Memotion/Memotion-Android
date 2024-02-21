@@ -27,10 +27,6 @@
             android:name=".ui.diary.create.WritingDiaryActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".CustomtomActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
 
         <receiver
             android:name=".braodcast.AlertReceiver"

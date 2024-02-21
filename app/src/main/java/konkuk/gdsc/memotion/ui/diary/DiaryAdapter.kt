@@ -23,8 +23,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -87,7 +89,7 @@ class DiaryAdapter(
     class CalendarViewHolder(
         private val binding: ItemCalendarBinding,
         private val fragment: Fragment,
-    ): RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         private var _listener: DateChangeListener? = null
         private val listener: DateChangeListener
@@ -109,30 +111,30 @@ class DiaryAdapter(
 
         @Composable
         fun CalendarCustom() {
-            val currentDate = remember { mutableStateOf(LocalDate.now()) } //현재 보여줄 달력 날짜의 기준
-            val isMonthDialogOpen = remember { mutableStateOf(false) }
+            var currentDate by remember { mutableStateOf(LocalDate.now()) } //현재 보여줄 달력 날짜의 기준
+            var isMonthDialogOpen by remember { mutableStateOf(false) }
             Column(
                 modifier = Modifier
-                    .padding(16.dp),
+                    .padding(16.dp, 0.dp),
             ) {
-                YearHeader(currentDate.value, onSelect = {
-                    currentDate.value = it
+                YearHeader(currentDate, onSelect = {
+                    currentDate = it
                 })
-                MonthHeader(currentDate.value, onSelect = {
-                    isMonthDialogOpen.value = true
+                MonthHeader(currentDate, onSelect = {
+                    isMonthDialogOpen = true
                 })
                 DayHeader()
-                CalendarPage(currentDate.value)
+                CalendarPage(currentDate)
 
-                if (isMonthDialogOpen.value) {
+                if (isMonthDialogOpen) {
                     MonthDialog(
-                        currentDate = currentDate.value,
+                        currentDate = currentDate,
                         onMonthSelected = {
-                            currentDate.value =
-                                LocalDate.of(currentDate.value.year, it, currentDate.value.dayOfMonth)
-                            isMonthDialogOpen.value = false
+                            currentDate =
+                                LocalDate.of(currentDate.year, it, currentDate.dayOfMonth)
+                            isMonthDialogOpen = false
                         },
-                        onDismissRequest = { isMonthDialogOpen.value = false }
+                        onDismissRequest = { isMonthDialogOpen = false }
                     )
                 }
             }
@@ -146,8 +148,7 @@ class DiaryAdapter(
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 0.dp, top = 20.dp, end = 0.dp, bottom = 0.dp),
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
                 Icon(
@@ -200,7 +201,7 @@ class DiaryAdapter(
                         textAlign = TextAlign.Center
                     )
                     Icon(
-                        modifier = Modifier.padding(start = 0.dp, top = 4.dp, end = 0.dp, bottom = 0.dp),
+                        modifier = Modifier.padding(top = 4.dp),
                         painter = painterResource(id = R.drawable.chevron_down),
                         contentDescription = "down"
                     )
@@ -238,7 +239,7 @@ class DiaryAdapter(
             currentDate: LocalDate,
         ) {
             Column() {
-                var checkDate = remember { mutableStateOf(currentDate) } //선택된 날짜 넘김
+                var checkDate by remember { mutableStateOf(currentDate) } //선택된 날짜 넘김
                 var rowCnt = 0 //행수
                 var date = 0
                 var end = false
@@ -256,15 +257,16 @@ class DiaryAdapter(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         for (i in 0..6) {
-                            var firstDayOfWeek = LocalDate.of(currentDate.year, currentDate.monthValue, 1)
+                            var firstDayOfWeek =
+                                LocalDate.of(currentDate.year, currentDate.monthValue, 1)
                             if ((rowCnt == 0) and (firstDayOfWeek.dayOfWeek.value > i)) { //시작일 전에 빈칸
                                 DayContainer(
                                     dayOfWeek = null,
                                     date = -1,
                                     currentDate,
-                                    checkDate.value.dayOfMonth,
+                                    checkDate.dayOfMonth,
                                     onCheck = {
-                                        checkDate.value =
+                                        checkDate =
                                             LocalDate.of(currentDate.year, currentDate.month, it)
                                     })
                             } else if (date > lastDay - 1) { //마지막 날 이후 빈칸
@@ -272,9 +274,9 @@ class DiaryAdapter(
                                     dayOfWeek = null,
                                     date = -1,
                                     currentDate,
-                                    checkDate.value.dayOfMonth,
+                                    checkDate.dayOfMonth,
                                     onCheck = {
-                                        checkDate.value =
+                                        checkDate =
                                             LocalDate.of(currentDate.year, currentDate.month, it)
                                     }
                                 )
@@ -285,12 +287,12 @@ class DiaryAdapter(
                             } else {
                                 date += 1
                                 DayContainer(
-                                    dayOfWeek = i+1,
+                                    dayOfWeek = i + 1,
                                     date = date,
                                     currentDate,
-                                    checkDate.value.dayOfMonth,
+                                    checkDate.dayOfMonth,
                                     onCheck = {
-                                        checkDate.value =
+                                        checkDate =
                                             LocalDate.of(currentDate.year, currentDate.month, it)
                                     })
                             }
@@ -319,6 +321,12 @@ class DiaryAdapter(
                 var drawList = intArrayOf(0, 0) //drawBehind의 color과 cornerRadius값
                 var paddingList = intArrayOf(0, 0) //padding의 hor과 ver 값
                 var borderList = intArrayOf(0, 0) //border 굵기와 color
+
+                var drawColor = 0x00FFFFFF
+                var drawConerRadius = 0.dp
+                var horizontalPadding = 0.dp
+                var verticalPadding = 0.dp
+                var borderColor = 0x00FFFFFF
                 var textColor = Color.Black
 
                 if (dayOfWeek == null) { //빈칸용
@@ -337,23 +345,30 @@ class DiaryAdapter(
                         )
                     ) { //오늘날짜 표시
                         if (date < 10) {
-                            drawList = intArrayOf(0xFF555555.toInt(), 10)
-                            paddingList = intArrayOf(10, 0)
+                            drawColor = (0xFF555555).toInt()
+                            drawConerRadius = 10.dp
+                            horizontalPadding = 10.dp
+                            verticalPadding = 0.dp
                             textColor = Color.White
                         } else {
-                            drawList = intArrayOf(0xFF555555.toInt(), 10)
-                            paddingList = intArrayOf(8, 0)
+                            drawColor = (0xFF555555).toInt()
+                            drawConerRadius = 10.dp
+                            horizontalPadding = 8.dp
+                            verticalPadding = 0.dp
                             textColor = Color.White
                         }
                     } else if ((checkDate == date) and (checkDate != LocalDate.now().dayOfMonth)) {  //선택된날 테두리 표시
                         if (date < 10) {
-                            drawList = intArrayOf(0xFFFFFFFF.toInt(), 20)
-                            paddingList = intArrayOf(10, 0)
-                            borderList = intArrayOf(3, 0xFF555555.toInt())
+                            drawColor = (0xFFFFFFFF).toInt()
+                            drawConerRadius = 20.dp
+                            horizontalPadding = 10.dp
+                            verticalPadding = 0.dp
+                            borderColor = 0xFF555555.toInt()
                         } else {
-                            drawList = intArrayOf(0xFFFFFFFF.toInt(), 20)
-                            paddingList = intArrayOf(8, 0)
-                            borderList = intArrayOf(3, 0xFF555555.toInt())
+                            drawColor = (0xFFFFFFFF).toInt()
+                            drawConerRadius = 20.dp
+                            horizontalPadding = 8.dp
+                            borderColor = 0xFF555555.toInt()
                         }
                         if (dayOfWeek == 1) textColor = Color.Red
                     } else if (dayOfWeek == 1) textColor = Color.Red //일요일은 붉은색
@@ -365,25 +380,26 @@ class DiaryAdapter(
                         modifier = Modifier
                             .drawBehind {
                                 drawRoundRect(
-                                    Color(drawList[0]),
-                                    cornerRadius = CornerRadius(drawList[1].dp.toPx()),
+                                    Color(drawColor),
+                                    cornerRadius = CornerRadius(drawConerRadius.toPx()),
                                 )
                             }
-                            .border(2.dp, Color(borderList[1]), shape = CircleShape)
-                            .padding(paddingList[0].dp, paddingList[1].dp)
+                            .border(2.dp, Color(borderColor), shape = CircleShape)
+                            .padding(horizontalPadding, verticalPadding)
                     )
                     Spacer(modifier = Modifier.size(4.dp))
                     Icon(
                         modifier = Modifier.size(36.dp),
                         painter = painterResource(id = R.drawable.ic_empty_circle),
-                        contentDescription = "empty"
+                        contentDescription = "empty",
+                        tint = Color(0xFFD9D9D9)
                     )
                 }
             }
         }
 
         interface DateChangeListener {
-            fun dateChanged(year:Int, month: Int, dayOfMonth: Int)
+            fun dateChanged(year: Int, month: Int, dayOfMonth: Int)
         }
 
         private fun setDateChangeListener(listener: DateChangeListener) {
@@ -396,8 +412,8 @@ class DiaryAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType) {
-            0 ->{
+        return when (viewType) {
+            0 -> {
                 val calendarBinding: ItemCalendarBinding =
                     ItemCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
@@ -416,14 +432,15 @@ class DiaryAdapter(
     override fun getItemCount() = data.size + 1
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(position) {
+        when (position) {
             0 -> {
                 val calendarViewHolder = holder as CalendarViewHolder
                 calendarViewHolder.bind()
             }
+
             else -> {
                 val diaryViewHolder = holder as DiaryViewHolder
-                diaryViewHolder.bind(data[position-1])
+                diaryViewHolder.bind(data[position - 1])
                 diaryViewHolder.binding.llItemDiaryTrash.setOnClickListener {
                     removeData(holder.layoutPosition)
                 }
