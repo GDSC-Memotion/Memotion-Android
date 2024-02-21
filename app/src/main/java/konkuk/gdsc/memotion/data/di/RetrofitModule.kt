@@ -8,15 +8,20 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import konkuk.gdsc.memotion.data.api.DiaryApi
 import kotlinx.serialization.json.Json
+import okhttp3.HttpUrl
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-const val BASE_URL = "http://34.64.240.16:8080/"
+const val BASE_URL = "http://34.47.97.138:8080/"
+
 
 @Module
 @InstallIn(SingletonComponent::class)

@@ -1,5 +1,6 @@
 package konkuk.gdsc.memotion.data.api
 
+import android.net.SocketKeepalive
 import konkuk.gdsc.memotion.data.model.request.RequestPostDiary
 import konkuk.gdsc.memotion.data.model.request.RequestPutDiary
 import konkuk.gdsc.memotion.data.model.response.ResponseDeleteDiary
@@ -11,6 +12,7 @@ import konkuk.gdsc.memotion.data.model.response.ResponsePutDiary
 import okhttp3.MultipartBody
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -23,7 +25,7 @@ interface DiaryApi {
     @Multipart
     @POST("diary")
     suspend fun postDiary(
-        @Part("request")
+        @Part("info")
         request: RequestPostDiary,
         @Part
         images: List<MultipartBody.Part>
