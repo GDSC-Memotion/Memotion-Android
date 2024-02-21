@@ -72,7 +72,7 @@ class DiaryFragment
         val swipeHelperCallback = SwipeHelperCallback(diaryAdapter).apply {
             // 스와이프한 뒤 고정시킬 위치 지정
             val size = dpToPx(requireActivity(), 51f)
-            setClamp((resources.displayMetrics.widthPixels.toFloat() - size) / 4)    // 1080 / 4 = 270
+            setClamp((resources.displayMetrics.widthPixels.toFloat() - size) / 6)    // 1080 / 4 = 270
         }
 
         ItemTouchHelper(swipeHelperCallback).attachToRecyclerView(binding.rvDiaryList)
