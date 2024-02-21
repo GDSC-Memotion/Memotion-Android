@@ -72,7 +72,7 @@
 
             <EditText
                 android:id="@+id/et_writing_diary_content"
-                style="@style/CONTENT_TEXT_STYLE"
+                style="@style/DIARY_CONTENT_TEXT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"

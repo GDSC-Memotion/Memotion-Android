@@ -6,18 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.diary.DiaryFragment">
 
-    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_up"
-        style="?attr/floatingActionButtonSmallStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="24dp"
-        app:backgroundTint="@color/orange_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/icon_chevron_up" />-->
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/fab_up"
         android:layout_width="40dp"
