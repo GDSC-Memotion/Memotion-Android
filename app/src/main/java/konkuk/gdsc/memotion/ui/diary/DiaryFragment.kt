@@ -82,8 +82,6 @@ class DiaryFragment
             swipeHelperCallback.removePreviousClamp(binding.rvDiaryList)
             false
         }
-
-        viewModel.getDailyDiary(dayConverter.format(viewModel.currentDay.value))
     }
 
     override fun onDestroyView() {
