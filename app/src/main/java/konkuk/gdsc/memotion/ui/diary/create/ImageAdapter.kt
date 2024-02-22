@@ -113,7 +113,7 @@ class ImageAdapter(
     }
 
     private fun validateUrls(urls: List<Uri>): Boolean {
-        val dataSize = data.size - 1
+        val dataSize = data.size
         val urlSize = urls.size
         if (dataSize > MAX_IMAGE) return false
         return dataSize + urlSize <= MAX_IMAGE
@@ -127,6 +127,7 @@ class ImageAdapter(
             )
         }
         data.addAll(new)
+        notifyDataSetChanged()
     }
 
     companion object {
