@@ -21,6 +21,8 @@ data class ResponseGetDailyDiary(
         val memberId: Long,
         @SerialName("mood")
         val mood: String,
+        @SerialName("createdAt")
+        val createdAt: String,
         @SerialName("imageUris")
         val imageUris: List<String>,
     ) {
@@ -37,7 +39,7 @@ data class ResponseGetDailyDiary(
             }
             return DiarySimple(
                 diaryId = id,
-                date = description,
+                date = createdAt,
                 emotion = emotion,
                 content = description,
                 imageUrl = imageUris

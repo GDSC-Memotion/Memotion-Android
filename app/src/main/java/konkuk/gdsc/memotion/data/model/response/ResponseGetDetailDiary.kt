@@ -29,11 +29,13 @@ data class ResponseGetDetailDiary(
         val youtubeUri: String,
         @SerialName("youtubeMusicUri")
         val youtubeMusicUri: String,
+        @SerialName("emotion")
+        val emotion: String,
+        @SerialName("createdAt")
+        val createdAt: String
     ) {
         @Serializable
         data class AnalysisResult(
-            @SerialName("emotion")
-            val emotion: String,
             @SerialName("joy")
             val joy: Float,
             @SerialName("neutral")
@@ -52,28 +54,26 @@ data class ResponseGetDetailDiary(
             fun asEmotionResult(): List<EmotionResult> {
                 return EmotionResult.sample
             }
-
-            fun getTitleEmotion(): Emotion {
-                return when (emotion) {
-                    Emotion.ANGER.toString().lowercase(Locale.getDefault()) -> Emotion.ANGER
-                    Emotion.DISGUST.toString().lowercase(Locale.getDefault()) -> Emotion.DISGUST
-                    Emotion.FEAR.toString().lowercase(Locale.getDefault()) -> Emotion.FEAR
-                    Emotion.JOY.toString().lowercase(Locale.getDefault()) -> Emotion.JOY
-                    Emotion.NEUTRAL.toString().lowercase(Locale.getDefault()) -> Emotion.NEUTRAL
-                    Emotion.SADNESS.toString().lowercase(Locale.getDefault()) -> Emotion.SADNESS
-                    Emotion.SURPRISE.toString().lowercase(Locale.getDefault()) -> Emotion.SURPRISE
-                    else -> Emotion.ANGER
-                }
-            }
         }
 
         fun asDiaryDetail(): DiaryDetail {
+            val titleEmotion = when (emotion) {
+                Emotion.ANGER.toString().lowercase(Locale.getDefault()) -> Emotion.ANGER
+                Emotion.DISGUST.toString().lowercase(Locale.getDefault()) -> Emotion.DISGUST
+                Emotion.FEAR.toString().lowercase(Locale.getDefault()) -> Emotion.FEAR
+                Emotion.JOY.toString().lowercase(Locale.getDefault()) -> Emotion.JOY
+                Emotion.NEUTRAL.toString().lowercase(Locale.getDefault()) -> Emotion.NEUTRAL
+                Emotion.SADNESS.toString().lowercase(Locale.getDefault()) -> Emotion.SADNESS
+                Emotion.SURPRISE.toString().lowercase(Locale.getDefault()) -> Emotion.SURPRISE
+                else -> Emotion.ANGER
+            }
+
             return DiaryDetail(
                 diaryId = diaryId,
-                date = Calendar.getInstance().toString(),
+                date = createdAt,
                 imageUrls = imageUris,
                 content = description,
-                titleEmotion = analysisResult.getTitleEmotion(),
+                titleEmotion = titleEmotion,
                 emotions = analysisResult.asEmotionResult(),
                 youtubeUrl = youtubeUri,
                 youtubeMusicUrl = youtubeMusicUri,
@@ -82,7 +82,7 @@ data class ResponseGetDetailDiary(
 
         fun asDiaryWriting(): DiaryWriting {
             return DiaryWriting(
-                date = calendarToString(Calendar.getInstance()),
+                date = createdAt,
                 imageUrls = imageUris,
                 content = description
             )
