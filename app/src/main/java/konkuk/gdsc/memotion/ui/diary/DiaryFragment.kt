@@ -41,8 +41,8 @@ class DiaryFragment
         val currentDayObserver = Observer<Calendar> {
             viewModel.getDailyDiary(dayConverter.format(viewModel.currentDay.value))
         }
-        val monthlyDiaryObserver = Observer<List<DiarySimple>> {
-
+        val monthlyDiaryObserver = Observer<List<String>> {
+            //viewModel.getMonthlyDiary()
         }
         val dailyDiaryObserver = Observer<List<DiarySimple>> {
             diaryAdapter.updateData(it)

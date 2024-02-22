@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 //import androidx.compose.material3.LocalTextStyle
 //import androidx.compose.material3.MaterialTheme
@@ -108,18 +107,6 @@ fun FilledButton(
     month: String,
     onClick: () -> Unit
 ) {
-//    Button(
-//        modifier = Modifier.requiredWidth(100.dp),
-//        onClick = { onClick() }
-//    ) {
-//        Text(
-//            text = month,
-//            fontSize = 10.sp,
-//            fontWeight = FontWeight.Normal,
-//            textAlign = TextAlign.Center,
-//            color = Color.White
-//        )
-//    }
     Text(
         text = month,
         fontSize = 14.sp,
@@ -143,18 +130,6 @@ fun OutlinedButton(
     month: String,
     onClick: () -> Unit
 ) {
-//    OutlinedButton(
-//        modifier = Modifier.requiredWidth(100.dp),
-//        onClick = { onClick() }
-//    ) {
-//        Text(
-//            text = month,
-//            fontSize = 10.sp,
-//            fontWeight = FontWeight.Normal,
-//            textAlign = TextAlign.Center,
-//            color = Color.Black
-//        )
-//    }
     Text(
         text = month,
         fontSize = 14.sp,
