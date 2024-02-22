@@ -32,6 +32,10 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+
+        binding.ivNotification.setOnClickListener {
+
+        }
     }
 
     companion object {
