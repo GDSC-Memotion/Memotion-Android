@@ -40,6 +40,7 @@ import konkuk.gdsc.memotion.domain.entity.diary.DiarySimple
 import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.databinding.ItemCalendarBinding
 import konkuk.gdsc.memotion.databinding.ItemDiaryBinding
+import konkuk.gdsc.memotion.domain.entity.emotion.Emotion
 import konkuk.gdsc.memotion.ui.diary.detail.DiaryDetailActivity
 import konkuk.gdsc.memotion.util.dpToPx
 import java.time.LocalDate
@@ -476,7 +477,8 @@ class DiaryAdapter(
                 if (data.isNotEmpty()) {
                     diaryViewHolder.bind(data[position - 1])
                     diaryViewHolder.binding.llItemDiaryTrash.setOnClickListener {
-                        removeData(holder.layoutPosition)
+//                        removeData(holder.layoutPosition)
+                        notifyDataSetChanged()
                         listener.deleteDiary(data[position - 1].diaryId)
                     }
                 } else {
