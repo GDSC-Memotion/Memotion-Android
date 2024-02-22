@@ -1,8 +1,6 @@
 package konkuk.gdsc.memotion.util.image
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
 import okhttp3.MediaType
@@ -10,7 +8,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okio.BufferedSink
-import java.io.ByteArrayOutputStream
+import okio.source
 
 class ContentUriRequestBody(
     context: Context,
@@ -20,7 +18,6 @@ class ContentUriRequestBody(
 
     private var fileName = ""
     private var size = -1L
-    private var compressedImage: ByteArray? = null
 
     init {
         if (uri != null) {
@@ -49,7 +46,11 @@ class ContentUriRequestBody(
         uri?.let { contentResolver.getType(it)?.toMediaTypeOrNull() }
 
     override fun writeTo(sink: BufferedSink) {
-        compressedImage?.let(sink::write)
+        uri?.let {
+            contentResolver.openInputStream(it)?.source()?.use { source ->
+                sink.writeAll(source)
+            }
+        }
     }
 
     fun toFormData(name: String) = MultipartBody.Part.createFormData(name, getFileName(), this)

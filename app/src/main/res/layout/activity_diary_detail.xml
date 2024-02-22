@@ -72,7 +72,7 @@
 
             <TextView
                 android:id="@+id/tv_diary_detail_content"
-                style="@style/CONTENT_TEXT"
+                style="@style/DIARY_CONTENT_TEXT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -128,45 +128,80 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/tv_diary_detail_emotion"
+                        <LinearLayout
+                            android:id="@+id/ll_diary_detail_emotion"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:text="You felt “Joy”!"
-                            android:textColor="@color/black"
-                            android:textFontWeight="700"
-                            android:textSize="14sp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             app:layout_constraintStart_toEndOf="@id/iv_diary_detail_emotion"
-                            app:layout_constraintTop_toTopOf="@id/iv_diary_detail_emotion" />
+                            app:layout_constraintTop_toTopOf="@id/iv_diary_detail_emotion">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/ubuntu_regular"
+                                android:text="You felt “"
+                                android:textColor="@color/black"
+                                android:textFontWeight="700"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/tv_diary_detail_emotion"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/ubuntu_regular"
+                                android:textColor="@color/black"
+                                android:textFontWeight="700"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/ubuntu_regular"
+                                android:text="”!"
+                                android:textColor="@color/black"
+                                android:textFontWeight="700"
+                                android:textSize="14sp" />
+
+
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/tv_diary_detail_emotion_comment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="2dp"
+                            android:fontFamily="@font/ubuntu_regular"
+                            android:paddingTop="10dp"
                             android:text="You had a happy moment :)"
                             android:textColor="@color/black"
                             android:textFontWeight="400"
                             android:textSize="12sp"
-                            app:layout_constraintStart_toStartOf="@id/tv_diary_detail_emotion"
-                            app:layout_constraintTop_toBottomOf="@id/tv_diary_detail_emotion" />
+                            app:layout_constraintBottom_toBottomOf="@id/iv_diary_detail_emotion"
+                            app:layout_constraintStart_toEndOf="@id/iv_diary_detail_emotion"
+                            app:layout_constraintTop_toBottomOf="@id/ll_diary_detail_emotion"
+                            app:layout_constraintTop_toTopOf="@id/iv_diary_detail_emotion" />
 
                         <TextView
                             android:id="@+id/tv_diary_detail_emotion_viewmore"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/ubuntu_regular"
                             android:textColor="#5375FC"
                             android:textFontWeight="500"
                             android:textSize="12sp"
-                            app:layout_constraintBottom_toBottomOf="@id/tv_diary_detail_emotion"
+                            app:layout_constraintBottom_toBottomOf="@id/ll_diary_detail_emotion"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/tv_diary_detail_emotion" />
+                            app:layout_constraintTop_toTopOf="@id/ll_diary_detail_emotion" />
 
                         <TextView
                             android:id="@+id/tv_hidden_emotion"
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/ubuntu_regular"
                             android:textColor="@color/black"
                             android:textSize="12sp"
                             android:visibility="gone"
@@ -199,6 +234,7 @@
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
+                            android:fontFamily="@font/ubuntu_regular"
                             android:textColor="@color/black"
                             android:textSize="12sp"
                             app:layout_constraintBottom_toBottomOf="@id/pv_diary_detail_percentage"
@@ -225,7 +261,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -275,6 +311,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/ubuntu_bold"
                             android:text="Play"
                             android:textStyle="bold" />
 
@@ -282,6 +319,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="3dp"
+                            android:fontFamily="@font/ubuntu_regular"
                             android:text="with" />
 
                         <ImageView
@@ -315,6 +353,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/ubuntu_bold"
                             android:text="Play"
                             android:textStyle="bold" />
 
@@ -322,6 +361,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="3dp"
+                            android:fontFamily="@font/ubuntu_regular"
                             android:text="with" />
 
                         <ImageView

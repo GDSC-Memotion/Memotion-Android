@@ -63,8 +63,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:enabled="false"
+            android:fontFamily="@font/ubuntu_regular"
+            android:text="Reminder"
             android:textColor="@drawable/selector_reminder_text"
-            android:text="Reminder" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_user_reminder_time"
@@ -72,10 +74,11 @@
             android:layout_height="22dp"
             android:layout_marginStart="7dp"
             android:background="@drawable/shape_reminder_text"
+            android:enabled="false"
             android:gravity="center"
             android:text="22:00"
-            android:enabled="false"
             android:textColor="@drawable/selector_reminder_text"
+            android:fontFamily="@font/ubuntu_regular"
             android:textSize="12sp" />
 
         <View

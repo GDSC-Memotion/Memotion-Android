@@ -36,6 +36,7 @@
         android:layout_gravity="end"
         android:layout_marginStart="8dp"
         android:textColor="@color/gray400"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:fontFamily="@font/ubuntu_regular"/>
 
 </LinearLayout>

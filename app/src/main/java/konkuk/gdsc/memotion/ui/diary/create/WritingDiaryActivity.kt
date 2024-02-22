@@ -13,6 +13,7 @@ import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.viewModels
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.MainActivity
@@ -46,7 +47,12 @@ class WritingDiaryActivity : AppCompatActivity() {
         val versionObserver = Observer<DiaryVersion> {
             when (it) {
                 DiaryVersion.WRITING -> setWritingDiary()
-                DiaryVersion.EDITING -> viewModel.setEditingDiaryData(intent.getLongExtra(DiaryDetailActivity.INTENT_DIARY_ID, 1))
+                DiaryVersion.EDITING -> viewModel.setEditingDiaryData(
+                    intent.getLongExtra(
+                        DiaryDetailActivity.INTENT_DIARY_ID,
+                        1
+                    )
+                )
             }
         }
 
@@ -108,14 +114,9 @@ class WritingDiaryActivity : AppCompatActivity() {
                     .commit()
             }
 
-            etWritingDiaryContent.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun afterTextChanged(p0: Editable?) {
-                    btnWritingDiaryPost.isEnabled = !etWritingDiaryContent.text.isNullOrBlank()
-                }
-
-            })
+            etWritingDiaryContent.doAfterTextChanged {
+                btnWritingDiaryPost.isEnabled = !etWritingDiaryContent.text.isNullOrBlank()
+            }
         }
     }
 
