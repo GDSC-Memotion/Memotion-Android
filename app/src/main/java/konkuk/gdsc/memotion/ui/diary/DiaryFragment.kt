@@ -103,7 +103,6 @@ class DiaryFragment
     }
 
     override fun deleteDiary(diaryId: Long) {
-//        viewModel.deleteDiary(diaryId)
-//        viewModel.getDailyDiary(dayConverter.format(viewModel.currentDay.value))
+        viewModel.deleteDiary(diaryId)
     }
 }
