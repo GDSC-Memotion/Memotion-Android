@@ -3,6 +3,7 @@ package konkuk.gdsc.memotion.ui.diary
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -100,6 +101,7 @@ class DiaryFragment
         cal.set(Calendar.MONTH, month)
         cal.set(Calendar.DATE, dayOfMonth)
         viewModel.changeCurrentDay(cal)
+        Log.d("datachange", "dateChanged: $year, $month, $dayOfMonth")
     }
 
     override fun deleteDiary(diaryId: Long) {
