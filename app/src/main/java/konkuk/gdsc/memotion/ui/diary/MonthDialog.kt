@@ -38,6 +38,7 @@ import java.time.LocalDate
 @Composable
 fun MonthDialog(
     currentDate: LocalDate,
+    changedDate: LocalDate,
     onMonthSelected: (Int) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
@@ -77,21 +78,38 @@ fun MonthDialog(
                         Column(
                             modifier = Modifier.padding(3.dp)
                         ) {
-
-                            if (currentDate.monthValue == month + i) {
-                                FilledButton(
-                                    month = monthList[month + i - 1],
-                                    onClick = {
-                                        onMonthSelected(month + i)
-                                        Log.d("monthDialog", "달력 클릭 감지 : ${month+i}")
-                                    })
+                            if (currentDate==changedDate) {
+                                if (currentDate.monthValue == month + i) {
+                                    FilledButton(
+                                        month = monthList[month + i - 1],
+                                        onClick = {
+                                            onMonthSelected(month + i)
+                                            Log.d("monthDialog", "달력 클릭 감지 : ${month+i}")
+                                        })
+                                } else {
+                                    OutlinedButton(
+                                        month = monthList[month + i - 1],
+                                        onClick = {
+                                            onMonthSelected(month + i)
+                                            Log.d("monthDialog", "달력 클릭 감지 : ${month+i}")
+                                        })
+                                }
                             } else {
-                                OutlinedButton(
-                                    month = monthList[month + i - 1],
-                                    onClick = {
-                                        onMonthSelected(month + i)
-                                        Log.d("monthDialog", "달력 클릭 감지 : ${month+i}")
-                                    })
+                                if (changedDate.monthValue == month + i) {
+                                    FilledButton(
+                                        month = monthList[month + i - 1],
+                                        onClick = {
+                                            onMonthSelected(month + i)
+                                            Log.d("monthDialog", "달력 클릭 감지 : ${month+i}")
+                                        })
+                                } else {
+                                    OutlinedButton(
+                                        month = monthList[month + i - 1],
+                                        onClick = {
+                                            onMonthSelected(month + i)
+                                            Log.d("monthDialog", "달력 클릭 감지 : ${month+i}")
+                                        })
+                                }
                             }
                         }
                     }

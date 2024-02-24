@@ -119,13 +119,11 @@ class DiaryAdapter(
         private var _listener: DateChangeListener? = null
         private val listener: DateChangeListener
             get() = requireNotNull(_listener) { "CalendarViewHolder's DateChangeListener is null" }
-        var currentDate = LocalDate.now()
+        private var currentDate: LocalDate = LocalDate.now()
 
         fun bind() {
 
-            Log.d("diaryAdapter", "bind: 호출")
             binding.customCalendar.setContent {
-                Log.d("diaryAdapter", "bind: CalendarCustom() 실행전")
                 CalendarCustom(
                     currentDate,
                     changedDate = {
@@ -134,7 +132,6 @@ class DiaryAdapter(
                 )
             }
 
-            Log.d("diaryAdapter", "CalendarCustom: listener 후")
             setDateChangeListener(fragment as DiaryFragment)
         }
 
@@ -145,37 +142,36 @@ class DiaryAdapter(
         ) {
 //            var currentDate by remember { mutableStateOf(LocalDate.now()) } //현재 보여줄 달력 날짜의 기준
             var isMonthDialogOpen by remember { mutableStateOf(false) }
+            var changedDate by remember { mutableStateOf(currentDate) }
+
             Column(
                 modifier = Modifier
                     .padding(16.dp, 0.dp),
             ) {
-                var month = 0
-
                 YearHeader(currentDate, onSelect = {
+                    //currentDate = it
                     changedDate(it)
+                    listener.dateChanged(currentDate.year, currentDate.monthValue, currentDate.dayOfMonth)
                 })
                 MonthHeader(currentDate, onSelect = {
-                    Log.d("diaryAdapter", "bind: MonthHeader() onSelect 다이얼로그 오픈")
                     isMonthDialogOpen = true
-                    changedDate(LocalDate.of(currentDate.year, month, currentDate.dayOfMonth))
                 })
                 DayHeader()
-                CalendarPage(currentDate, selectedDate = {
-                    changedDate(it)
-                })
+                CalendarPage(currentDate)
 
+                var month =1
                 if (isMonthDialogOpen) {
-
                     MonthDialog(
                         currentDate = currentDate,
+                        changedDate = changedDate,
                         onMonthSelected = {
-                            month = it
+                            listener.dateChanged(currentDate.year, it, currentDate.dayOfMonth)
+                            changedDate = LocalDate.of(currentDate.year, it, currentDate.dayOfMonth)
+                            Log.d("datachange", "CalendarCustom: $changedDate")
                             isMonthDialogOpen = false
-                            Log.d("diaryAdapter", "bind: MonthDialog() onSelect 다이얼로그 실행 onSelect")
                         },
                         onDismissRequest = { isMonthDialogOpen = false },
                     )
-
                 }
             }
         }
@@ -183,10 +179,9 @@ class DiaryAdapter(
         //Custom Calendar
         @Composable
         fun YearHeader(
-            selectedDate: LocalDate,
+            currentDate: LocalDate,
             onSelect: (LocalDate) -> Unit
         ) {
-            Log.d("diaryAdapter", "bind: YearHeader() 실행")
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -197,13 +192,13 @@ class DiaryAdapter(
                         .padding(4.dp, 0.dp)
                         .size(20.dp)
                         .clickable {
-                            onSelect(selectedDate.minusYears(1))
+                            onSelect(currentDate.minusYears(1))
                         },
                     painter = painterResource(id = R.drawable.chevron_left),
                     contentDescription = "previous",
                 )
                 Text(
-                    text = "${selectedDate.year}",
+                    text = "${currentDate.year}",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -212,7 +207,7 @@ class DiaryAdapter(
                         .padding(4.dp, 0.dp)
                         .size(20.dp)
                         .clickable {
-                            onSelect(selectedDate.plusYears(1))
+                            onSelect(currentDate.plusYears(1))
                         },
                     painter = painterResource(id = R.drawable.chevron_right),
                     contentDescription = "next"
@@ -225,7 +220,6 @@ class DiaryAdapter(
             currentDate: LocalDate,
             onSelect: () -> Unit
         ) {
-            Log.d("diaryAdapter", "bind: MonthHeader() 실행")
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -279,7 +273,6 @@ class DiaryAdapter(
         @Composable
         fun CalendarPage(
             currentDate: LocalDate,
-            selectedDate: (LocalDate) -> Unit,
         ) {
             Log.d("diaryAdapter", "bind: CalendarPage() 실행")
             Column() {
@@ -354,7 +347,6 @@ class DiaryAdapter(
                                                 currentDate.month,
                                                 it
                                             )
-                                        selectedDate(checkDate)
                                         listener.dateChanged(checkDate.year, checkDate.monthValue, checkDate.dayOfMonth)
                                     },
                                     emotion = null,
@@ -372,7 +364,6 @@ class DiaryAdapter(
                                                 currentDate.month,
                                                 it
                                             )
-                                        selectedDate(checkDate)
                                         listener.dateChanged(checkDate.year, checkDate.monthValue, checkDate.dayOfMonth)
                                     },
                                     emotion = null,
@@ -395,7 +386,6 @@ class DiaryAdapter(
                                                 currentDate.month,
                                                 it
                                             )
-                                        selectedDate(checkDate)
                                         listener.dateChanged(checkDate.year, checkDate.monthValue, checkDate.dayOfMonth)
                                     },
                                     emotion = emotionList[date - 1],
@@ -417,7 +407,6 @@ class DiaryAdapter(
             onCheck: (Int) -> Unit,
             emotion: String?,
         ) {
-            Log.d("diaryAdapter", "DayContainer: date = $date / currentDate = $currentDate / checkDate = $checkDate")
             Column(
                 modifier = Modifier
                     .padding(4.dp, 8.dp)
@@ -582,7 +571,6 @@ class DiaryAdapter(
                 }
             }
         }
-        Log.d("diarayAdapter", "onBindViewHolder: 호출완료")
     }
 
     private fun removeData(position: Int) {
@@ -595,7 +583,7 @@ class DiaryAdapter(
 
     fun updateData(newData: List<DiarySimple>) {
         data = newData
-        notifyDataSetChanged()
+        notifyItemRangeChanged(1, newData.size)
     }
 
     interface DeleteDiaryListener {
