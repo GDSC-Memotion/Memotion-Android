@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -120,29 +121,40 @@ class DiaryAdapter(
             get() = requireNotNull(_listener) { "CalendarViewHolder's DateChangeListener is null" }
 
         fun bind() {
+            var currentDate = LocalDate.now()
             Log.d("diaryAdapter", "bind: 호출")
             binding.customCalendar.setContent {
                 Log.d("diaryAdapter", "bind: CalendarCustom() 실행전")
-                CalendarCustom()
-                Log.d("diaryAdapter", "bind: CalendarCustom() 실행후")
+                CalendarCustom(
+                    changedDate = {
+                        currentDate = it
+                    }
+                )
             }
 
+            binding.customCalendar.setOnClickListener {
+                Log.d("dateChanged", "bind: dateChanged = $currentDate")
+                listener.dateChanged(currentDate.year, currentDate.monthValue, currentDate.dayOfMonth)
+            }
+
+            Log.d("diaryAdapter", "CalendarCustom: listener 후")
             setDateChangeListener(fragment as DiaryFragment)
         }
 
         @Composable
-        fun CalendarCustom() {
+        fun CalendarCustom(
+            changedDate: (LocalDate) -> Unit
+        ) {
             var currentDate by remember { mutableStateOf(LocalDate.now()) } //현재 보여줄 달력 날짜의 기준
             var isMonthDialogOpen by remember { mutableStateOf(false) }
-
-            Log.d("diaryAdapter", "bind: CalendarCustom() 실행 $currentDate")
             Column(
                 modifier = Modifier
                     .padding(16.dp, 0.dp),
             ) {
+
                 YearHeader(currentDate, onSelect = {
-                    Log.d("diaryAdapter", "bind: YearHeader() onSelect $it")
                     currentDate = it
+                    changedDate(currentDate)
                 })
                 MonthHeader(currentDate, onSelect = {
                     Log.d("diaryAdapter", "bind: MonthHeader() onSelect 다이얼로그 오픈")
@@ -159,7 +171,6 @@ class DiaryAdapter(
                                 LocalDate.of(currentDate.year, it, currentDate.dayOfMonth)
                             isMonthDialogOpen = false
                             Log.d("diaryAdapter", "bind: MonthDialog() onSelect 다이얼로그 실행 onSelect")
-                            //listener.dateChanged(currentDate.year, currentDate.monthValue, currentDate.dayOfMonth)
                         },
                         onDismissRequest = { isMonthDialogOpen = false },
                     )
@@ -184,11 +195,6 @@ class DiaryAdapter(
                         .padding(4.dp, 0.dp)
                         .size(20.dp)
                         .clickable {
-//                            listener.dateChanged(
-//                                selectedDate.minusYears(1).year,
-//                                selectedDate.monthValue,
-//                                selectedDate.dayOfMonth
-//                            )
                             onSelect(selectedDate.minusYears(1))
                         },
                     painter = painterResource(id = R.drawable.chevron_left),
@@ -204,11 +210,6 @@ class DiaryAdapter(
                         .padding(4.dp, 0.dp)
                         .size(20.dp)
                         .clickable {
-//                            listener.dateChanged(
-//                                selectedDate.plusYears(1).year,
-//                                selectedDate.monthValue,
-//                                selectedDate.dayOfMonth
-//                            )
                             onSelect(selectedDate.plusYears(1))
                         },
                     painter = painterResource(id = R.drawable.chevron_right),
@@ -301,27 +302,27 @@ class DiaryAdapter(
                     "",
                     "",
                     "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
                     "anger",
                     "",
                     "",
                     "",
+                    "anger",
+                    "anger",
+                    "anger",
                     "",
                     "",
                     "",
+                    "anger",
+                    "joy",
+                    "joy",
                     "disgust",
                     "",
                     "",
                     "",
                     "",
-                    "",
-                    "",
-                    "",
+                    "anger",
+                    "joy",
+                    "joy",
                     "",
                     "",
                     ""
@@ -350,7 +351,6 @@ class DiaryAdapter(
                                                 currentDate.month,
                                                 it
                                             )
-                                        //listener.dateChanged(checkDate.year, checkDate.monthValue, checkDate.dayOfMonth)
                                     },
                                     emotion = null,
                                 )
@@ -367,7 +367,6 @@ class DiaryAdapter(
                                                 currentDate.month,
                                                 it
                                             )
-                                        //listener.dateChanged(checkDate.year, checkDate.monthValue, checkDate.dayOfMonth)
                                     },
                                     emotion = null,
                                 )
@@ -389,7 +388,6 @@ class DiaryAdapter(
                                                 currentDate.month,
                                                 it
                                             )
-                                        //.dateChanged(checkDate.year, checkDate.monthValue, checkDate.dayOfMonth)
                                     },
                                     emotion = emotionList[date - 1],
                                 )
