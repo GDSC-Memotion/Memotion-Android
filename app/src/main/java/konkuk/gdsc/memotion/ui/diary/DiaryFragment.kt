@@ -3,6 +3,7 @@ package konkuk.gdsc.memotion.ui.diary
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.domain.entity.diary.DiarySimple
 import konkuk.gdsc.memotion.databinding.FragmentDiaryBinding
+import konkuk.gdsc.memotion.util.TAG
 import konkuk.gdsc.memotion.util.dpToPx
 import konkuk.gdsc.memotion.util.view.setOnSingleClickListener
 
@@ -41,8 +43,8 @@ class DiaryFragment
         val currentDayObserver = Observer<Calendar> {
             viewModel.getDailyDiary(dayConverter.format(viewModel.currentDay.value))
         }
-        val monthlyDiaryObserver = Observer<List<DiarySimple>> {
-
+        val monthlyDiaryObserver = Observer<List<String>> {
+            //viewModel.getMonthlyDiary()
         }
         val dailyDiaryObserver = Observer<List<DiarySimple>> {
             diaryAdapter.updateData(it)
@@ -97,9 +99,10 @@ class DiaryFragment
     override fun dateChanged(year: Int, month: Int, dayOfMonth: Int) {
         val cal = Calendar.getInstance()
         cal.set(Calendar.YEAR, year)
-        cal.set(Calendar.MONTH, month)
+        cal.set(Calendar.MONTH, month-1)
         cal.set(Calendar.DATE, dayOfMonth)
         viewModel.changeCurrentDay(cal)
+        Log.d(TAG, "dateChanged: $year, $month, $dayOfMonth")
     }
 
     override fun deleteDiary(diaryId: Long) {

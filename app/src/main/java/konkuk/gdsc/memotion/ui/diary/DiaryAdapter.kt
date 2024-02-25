@@ -2,9 +2,11 @@ package konkuk.gdsc.memotion.ui.diary
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +21,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.DialogFragmentNavigatorDestinationBuilder
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import konkuk.gdsc.memotion.domain.entity.diary.DiarySimple
@@ -42,6 +46,7 @@ import konkuk.gdsc.memotion.databinding.ItemCalendarBinding
 import konkuk.gdsc.memotion.databinding.ItemDiaryBinding
 import konkuk.gdsc.memotion.domain.entity.emotion.Emotion
 import konkuk.gdsc.memotion.ui.diary.detail.DiaryDetailActivity
+import konkuk.gdsc.memotion.util.TAG
 import konkuk.gdsc.memotion.util.dpToPx
 import java.time.LocalDate
 import java.util.Locale
@@ -116,46 +121,57 @@ class DiaryAdapter(
         private var _listener: DateChangeListener? = null
         private val listener: DateChangeListener
             get() = requireNotNull(_listener) { "CalendarViewHolder's DateChangeListener is null" }
+        private var currentDate = LocalDate.now()
 
         fun bind() {
-
             binding.customCalendar.setContent {
-                CalendarCustom()
+                CalendarCustom(
+                    currentDate,
+                    changedDate = {
+                        currentDate = it
+                    }
+                )
             }
 
             setDateChangeListener(fragment as DiaryFragment)
-
-            /*binding.calendarDiary.setOnDateChangeListener { _, year, month, dayOfMonth ->
-                listener.dateChanged(year, month, dayOfMonth)
-            }*/
         }
 
         @Composable
-        fun CalendarCustom() {
-            var currentDate by remember { mutableStateOf(LocalDate.now()) } //현재 보여줄 달력 날짜의 기준
+        fun CalendarCustom(
+            currentDate: LocalDate,
+            changedDate: (LocalDate) -> Unit
+        ) {
+//            var currentDate by remember { mutableStateOf(LocalDate.now()) } //현재 보여줄 달력 날짜의 기준
             var isMonthDialogOpen by remember { mutableStateOf(false) }
+            var changedDate by remember { mutableStateOf(currentDate) }
             Column(
                 modifier = Modifier
                     .padding(16.dp, 0.dp),
             ) {
-                YearHeader(currentDate, onSelect = {
-                    currentDate = it
+                YearHeader(changedDate, onSelect = {
+                    changedDate = it
+                    changedDate(it)
+                    listener.dateChanged(changedDate.year, changedDate.monthValue, changedDate.dayOfMonth)
                 })
-                MonthHeader(currentDate, onSelect = {
+                MonthHeader(changedDate, onSelect = {
                     isMonthDialogOpen = true
                 })
                 DayHeader()
-                CalendarPage(currentDate)
+                CalendarPage(changedDate, onSelect = {
+                    changedDate = it
+                })
+
 
                 if (isMonthDialogOpen) {
                     MonthDialog(
                         currentDate = currentDate,
+                        changedDate = changedDate,
                         onMonthSelected = {
-                            currentDate =
-                                LocalDate.of(currentDate.year, it, currentDate.dayOfMonth)
+                            listener.dateChanged(changedDate.year, it, changedDate.dayOfMonth)
+                            changedDate = LocalDate.of(changedDate.year, it, changedDate.dayOfMonth)
                             isMonthDialogOpen = false
                         },
-                        onDismissRequest = { isMonthDialogOpen = false }
+                        onDismissRequest = { isMonthDialogOpen = false },
                     )
                 }
             }
@@ -164,7 +180,7 @@ class DiaryAdapter(
         //Custom Calendar
         @Composable
         fun YearHeader(
-            selectedDate: LocalDate,
+            currentDate: LocalDate,
             onSelect: (LocalDate) -> Unit
         ) {
             Row(
@@ -177,13 +193,13 @@ class DiaryAdapter(
                         .padding(4.dp, 0.dp)
                         .size(20.dp)
                         .clickable {
-                            onSelect(selectedDate.minusYears(1))
+                            onSelect(currentDate.minusYears(1))
                         },
                     painter = painterResource(id = R.drawable.chevron_left),
                     contentDescription = "previous",
                 )
                 Text(
-                    text = "${selectedDate.year}",
+                    text = "${currentDate.year}",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -192,7 +208,7 @@ class DiaryAdapter(
                         .padding(4.dp, 0.dp)
                         .size(20.dp)
                         .clickable {
-                            onSelect(selectedDate.plusYears(1))
+                            onSelect(currentDate.plusYears(1))
                         },
                     painter = painterResource(id = R.drawable.chevron_right),
                     contentDescription = "next"
@@ -258,6 +274,7 @@ class DiaryAdapter(
         @Composable
         fun CalendarPage(
             currentDate: LocalDate,
+            onSelect: (LocalDate) -> Unit,
         ) {
             Column() {
                 var checkDate by remember { mutableStateOf(currentDate) } //선택된 날짜 넘김
@@ -269,6 +286,44 @@ class DiaryAdapter(
                     LocalDate.of(currentDate.year, currentDate.monthValue, 1).plusMonths(1)
                         .minusDays(1) //달의 마지막 구하기
                 val lastDay = lastDayOfMonth.dayOfMonth
+
+                var emotionList = arrayOf(
+                    "",
+                    "joy",
+                    "",
+                    "anger",
+                    "disgust",
+                    "disgust",
+                    "",
+                    "sadness",
+                    "",
+                    "",
+                    "",
+                    "anger",
+                    "",
+                    "",
+                    "",
+                    "anger",
+                    "anger",
+                    "anger",
+                    "",
+                    "",
+                    "",
+                    "anger",
+                    "joy",
+                    "joy",
+                    "disgust",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "anger",
+                    "joy",
+                    "joy",
+                    "",
+                    "",
+                    ""
+                )
 
                 while (!end) {
                     Row(
@@ -293,7 +348,11 @@ class DiaryAdapter(
                                                 currentDate.month,
                                                 it
                                             )
-                                    })
+                                        onSelect(checkDate)
+                                        listener.dateChanged(checkDate.year, checkDate.monthValue, checkDate.dayOfMonth)
+                                    },
+                                    emotion = null,
+                                )
                             } else if (date > lastDay - 1) { //마지막 날 이후 빈칸
                                 DayContainer(
                                     dayOfWeek = null,
@@ -307,7 +366,10 @@ class DiaryAdapter(
                                                 currentDate.month,
                                                 it
                                             )
-                                    }
+                                        onSelect(checkDate)
+                                        listener.dateChanged(checkDate.year, checkDate.monthValue, checkDate.dayOfMonth)
+                                    },
+                                    emotion = null,
                                 )
                                 if (i == 6) {
                                     end = true
@@ -327,7 +389,11 @@ class DiaryAdapter(
                                                 currentDate.month,
                                                 it
                                             )
-                                    })
+                                        onSelect(checkDate)
+                                        listener.dateChanged(checkDate.year, checkDate.monthValue, it)
+                                    },
+                                    emotion = emotionList[date - 1],
+                                )
                             }
                         }
                     }
@@ -343,6 +409,7 @@ class DiaryAdapter(
             currentDate: LocalDate,
             checkDate: Int,
             onCheck: (Int) -> Unit,
+            emotion: String?,
         ) {
             Column(
                 modifier = Modifier
@@ -351,16 +418,13 @@ class DiaryAdapter(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                var drawList = intArrayOf(0, 0) //drawBehind의 color과 cornerRadius값
-                var paddingList = intArrayOf(0, 0) //padding의 hor과 ver 값
-                var borderList = intArrayOf(0, 0) //border 굵기와 color
-
                 var drawColor = 0x00FFFFFF
-                var drawConerRadius = 0.dp
+                var drawCornerRadius = 0.dp
                 var horizontalPadding = 0.dp
                 var verticalPadding = 0.dp
                 var borderColor = 0x00FFFFFF
                 var textColor = Color.Black
+                var painter: Int
 
                 if (dayOfWeek == null) { //빈칸용
                     Text(text = "", fontSize = 12.sp)
@@ -379,13 +443,13 @@ class DiaryAdapter(
                     ) { //오늘날짜 표시
                         if (date < 10) {
                             drawColor = (0xFF555555).toInt()
-                            drawConerRadius = 10.dp
+                            drawCornerRadius = 10.dp
                             horizontalPadding = 10.dp
                             verticalPadding = 0.dp
                             textColor = Color.White
                         } else {
                             drawColor = (0xFF555555).toInt()
-                            drawConerRadius = 10.dp
+                            drawCornerRadius = 10.dp
                             horizontalPadding = 8.dp
                             verticalPadding = 0.dp
                             textColor = Color.White
@@ -393,13 +457,13 @@ class DiaryAdapter(
                     } else if ((checkDate == date) and (checkDate != LocalDate.now().dayOfMonth)) {  //선택된날 테두리 표시
                         if (date < 10) {
                             drawColor = (0xFFFFFFFF).toInt()
-                            drawConerRadius = 20.dp
+                            drawCornerRadius = 20.dp
                             horizontalPadding = 10.dp
                             verticalPadding = 0.dp
                             borderColor = 0xFF555555.toInt()
                         } else {
                             drawColor = (0xFFFFFFFF).toInt()
-                            drawConerRadius = 20.dp
+                            drawCornerRadius = 20.dp
                             horizontalPadding = 8.dp
                             borderColor = 0xFF555555.toInt()
                         }
@@ -414,21 +478,47 @@ class DiaryAdapter(
                             .drawBehind {
                                 drawRoundRect(
                                     Color(drawColor),
-                                    cornerRadius = CornerRadius(drawConerRadius.toPx()),
+                                    cornerRadius = CornerRadius(drawCornerRadius.toPx()),
                                 )
                             }
                             .border(2.dp, Color(borderColor), shape = CircleShape)
                             .padding(horizontalPadding, verticalPadding)
                     )
                     Spacer(modifier = Modifier.size(4.dp))
-                    Icon(
-                        modifier = Modifier.size(36.dp),
-                        painter = painterResource(id = R.drawable.ic_empty_circle),
+
+
+                    if (emotion != null) {
+                        if (emotion == "") {
+                            painter = R.drawable.ic_empty_circle
+                        } else {
+                            painter = getEmotionOfDay(emotion).getResource()
+                        }
+                    } else {
+                        Log.d("diaryAdapter", "DayContainer: emotion==null")
+                        painter = R.drawable.ic_empty_circle
+                    }
+                    Image(
+                        modifier = Modifier
+                            .size(36.dp),
+                        painter = painterResource(id = painter),
                         contentDescription = "empty",
-                        tint = Color(0xFFD9D9D9)
                     )
                 }
             }
+        }
+
+        private fun getEmotionOfDay(emotionString: String): Emotion {
+            val emotion = when (emotionString) {
+                Emotion.ANGER.toString().lowercase(Locale.getDefault()) -> Emotion.ANGER
+                Emotion.DISGUST.toString().lowercase(Locale.getDefault()) -> Emotion.DISGUST
+                Emotion.FEAR.toString().lowercase(Locale.getDefault()) -> Emotion.FEAR
+                Emotion.JOY.toString().lowercase(Locale.getDefault()) -> Emotion.JOY
+                Emotion.NEUTRAL.toString().lowercase(Locale.getDefault()) -> Emotion.NEUTRAL
+                Emotion.SADNESS.toString().lowercase(Locale.getDefault()) -> Emotion.SADNESS
+                Emotion.SURPRISE.toString().lowercase(Locale.getDefault()) -> Emotion.SURPRISE
+                else -> Emotion.ANGER
+            }
+            return emotion
         }
 
         interface DateChangeListener {
@@ -497,8 +587,9 @@ class DiaryAdapter(
     }
 
     fun updateData(newData: List<DiarySimple>) {
+        val dataSize = if (data.size > newData.size) data.size else newData.size
         data = newData
-        notifyDataSetChanged()
+        notifyItemRangeChanged(1, dataSize)
     }
 
     interface DeleteDiaryListener {
@@ -508,5 +599,4 @@ class DiaryAdapter(
     private fun setDeleteDiaryListener(listener: DeleteDiaryListener) {
         this._listener = listener
     }
-
 }

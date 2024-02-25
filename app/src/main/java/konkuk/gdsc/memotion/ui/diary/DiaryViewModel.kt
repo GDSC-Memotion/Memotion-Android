@@ -24,8 +24,8 @@ class DiaryViewModel @Inject constructor(
     private val _dailyDiary = MutableLiveData<List<DiarySimple>>()
     val dailyDiary: LiveData<List<DiarySimple>> = _dailyDiary
 
-    private val _monthlyDiary = MutableLiveData<List<DiarySimple>>()
-    val monthlyDiary: LiveData<List<DiarySimple>> = _monthlyDiary
+    private val _monthlyDiary = MutableLiveData<List<String>>()
+    val monthlyDiary: LiveData<List<String>> = _monthlyDiary
 
     init {
         _currentDay.value = Calendar.getInstance()
@@ -58,7 +58,7 @@ class DiaryViewModel @Inject constructor(
             diaryRepository.getMonthlyDiary(period)
                 .onSuccess {
                     Log.d(NETWORK, "DiaryViewModel - getMonthlyDiary() called\nsuccess")
-//                    _monthlyDiary.value = it.result.map {}
+                    _monthlyDiary.value = it.result.emotions
                 }
                 .onFailure {
                     Log.d(NETWORK, "DiaryViewModel - getMonthlyDiary() called\nfailed")
