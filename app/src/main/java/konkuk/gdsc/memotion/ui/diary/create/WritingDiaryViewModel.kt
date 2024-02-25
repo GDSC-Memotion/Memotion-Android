@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import konkuk.gdsc.memotion.domain.entity.diary.DiaryWithImage
 import konkuk.gdsc.memotion.domain.entity.diary.DiaryWriting
 import konkuk.gdsc.memotion.domain.entity.emotion.Emotion
 import konkuk.gdsc.memotion.domain.repository.DiaryRepository
@@ -72,7 +73,28 @@ class WritingDiaryViewModel @Inject constructor(
 
     fun editDiary() {
         viewModelScope.launch {
-//            diaryRepository.putDiary()
+            diaryRepository.putDiary(
+                diaryId = diaryId.value ?: 0,
+                diary = diaryData.value?.asDiaryWithoutDate() ?: DiaryWithImage("", "", listOf()),
+                newImages = newImages.value?.toList() ?: listOf()
+                )
+                .onSuccess {
+                    Log.d(NETWORK, "WritingDiaryViewModel - putDiary() called\nsuccess")
+                    _emotionResult.value = Emotion.ANGER
+                        /*when (it.result.emotion.uppercase(Locale.getDefault())) {
+                        "ANGER" -> Emotion.ANGER
+                        "DISGUST" -> Emotion.DISGUST
+                        "FEAR" -> Emotion.FEAR
+                        "JOY" -> Emotion.JOY
+                        "NEUTRAL" -> Emotion.NEUTRAL
+                        "SADNESS" -> Emotion.SADNESS
+                        "SURPRISE" -> Emotion.SURPRISE
+                        else -> Emotion.ANGER
+                    }*/
+                }
+                .onFailure {
+                    Log.d(NETWORK, "WritingDiaryViewModel - putDiary() called\nfailed\nbecause:$it")
+                }
         }
     }
 

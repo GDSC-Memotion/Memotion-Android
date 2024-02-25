@@ -90,11 +90,28 @@ class WritingDiaryActivity : AppCompatActivity() {
                     .filter { it.type == ImageType.NEW }
                     .map { it.url }
 
-                val data = DiaryWriting(
-                    "${tvWritingDiaryDate.text} ${calendarToStringTime(Calendar.getInstance())}",
-                    existingImages,
-                    etWritingDiaryContent.text.toString()
-                )
+                val data = when (viewModel.version.value) {
+                    DiaryVersion.WRITING -> {
+                        DiaryWriting(
+                            "${tvWritingDiaryDate.text} ${calendarToStringTime(Calendar.getInstance())}",
+                            existingImages,
+                            etWritingDiaryContent.text.toString()
+                        )
+                    }
+                    DiaryVersion.EDITING -> {
+                        DiaryWriting(
+                            tvWritingDiaryDate.text.toString(),
+                            existingImages,
+                            etWritingDiaryContent.text.toString()
+                        )
+                    }
+                    null -> DiaryWriting(
+                        "${tvWritingDiaryDate.text} ${calendarToStringTime(Calendar.getInstance())}",
+                        existingImages,
+                        etWritingDiaryContent.text.toString()
+                    )
+                }
+
 
                 val images: List<MultipartBody.Part> =
                     newImages.map {
