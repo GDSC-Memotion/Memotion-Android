@@ -5,8 +5,10 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.compose.ui.text.capitalize
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -20,6 +22,7 @@ import konkuk.gdsc.memotion.domain.entity.diary.DiaryDetail
 import konkuk.gdsc.memotion.databinding.ActivityDiaryDetailBinding
 import konkuk.gdsc.memotion.ui.diary.DiaryAdapter
 import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryActivity
+import java.util.Locale
 
 @AndroidEntryPoint
 class DiaryDetailActivity : AppCompatActivity() {
@@ -60,7 +63,7 @@ class DiaryDetailActivity : AppCompatActivity() {
                 rvDiaryDetailEmotionList.adapter = EmotionAdapter(it.emotions)
             }
             youtubeIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.youtubeUrl))
-            youtubeMusicIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.youtubeUrl))
+            youtubeMusicIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.youtubeMusicUrl))
         }
         viewModel.diary.observe(this, diaryObserver)
 
@@ -112,6 +115,7 @@ class DiaryDetailActivity : AppCompatActivity() {
         }
 
         trashButton.setOnClickListener {
+            viewModel.deleteDiary()
             balloon.dismiss()
             finish()
         }
@@ -123,13 +127,17 @@ class DiaryDetailActivity : AppCompatActivity() {
                 this@DiaryDetailActivity.getString(R.string.view_less)
             binding.llcDiaryDetailEmotionDetail.visibility = View.VISIBLE
             binding.tvHiddenEmotion.visibility = View.VISIBLE
-            binding.llDiaryDetailEmotion.visibility = View.GONE
+//            binding.llDiaryDetailEmotion.visibility = View.GONE
+            binding.pvDiaryDetailPercentage.visibility = View.GONE
+            binding.tvDiaryDetailPercentageNumber.visibility = View.GONE
         } else {
             binding.tvDiaryDetailEmotionViewmore.text =
                 this@DiaryDetailActivity.getString(R.string.view_more)
             binding.llcDiaryDetailEmotionDetail.visibility = View.GONE
             binding.tvHiddenEmotion.visibility = View.GONE
-            binding.llDiaryDetailEmotion.visibility = View.VISIBLE
+//            binding.llDiaryDetailEmotion.visibility = View.VISIBLE
+            binding.pvDiaryDetailPercentage.visibility = View.VISIBLE
+            binding.tvDiaryDetailPercentageNumber.visibility = View.VISIBLE
         }
     }
 
