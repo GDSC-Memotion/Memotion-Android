@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.DialogFragmentNavigatorDestinationBuilder
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import konkuk.gdsc.memotion.domain.entity.diary.DiarySimple
@@ -45,6 +46,7 @@ import konkuk.gdsc.memotion.databinding.ItemCalendarBinding
 import konkuk.gdsc.memotion.databinding.ItemDiaryBinding
 import konkuk.gdsc.memotion.domain.entity.emotion.Emotion
 import konkuk.gdsc.memotion.ui.diary.detail.DiaryDetailActivity
+import konkuk.gdsc.memotion.util.TAG
 import konkuk.gdsc.memotion.util.dpToPx
 import java.time.LocalDate
 import java.util.Locale
@@ -119,10 +121,9 @@ class DiaryAdapter(
         private var _listener: DateChangeListener? = null
         private val listener: DateChangeListener
             get() = requireNotNull(_listener) { "CalendarViewHolder's DateChangeListener is null" }
-        private var currentDate: LocalDate = LocalDate.now()
+        private var currentDate = LocalDate.now()
 
         fun bind() {
-
             binding.customCalendar.setContent {
                 CalendarCustom(
                     currentDate,
@@ -143,31 +144,31 @@ class DiaryAdapter(
 //            var currentDate by remember { mutableStateOf(LocalDate.now()) } //현재 보여줄 달력 날짜의 기준
             var isMonthDialogOpen by remember { mutableStateOf(false) }
             var changedDate by remember { mutableStateOf(currentDate) }
-
             Column(
                 modifier = Modifier
                     .padding(16.dp, 0.dp),
             ) {
-                YearHeader(currentDate, onSelect = {
-                    //currentDate = it
+                YearHeader(changedDate, onSelect = {
+                    changedDate = it
                     changedDate(it)
-                    listener.dateChanged(currentDate.year, currentDate.monthValue, currentDate.dayOfMonth)
+                    listener.dateChanged(changedDate.year, changedDate.monthValue, changedDate.dayOfMonth)
                 })
-                MonthHeader(currentDate, onSelect = {
+                MonthHeader(changedDate, onSelect = {
                     isMonthDialogOpen = true
                 })
                 DayHeader()
-                CalendarPage(currentDate)
+                CalendarPage(changedDate, onSelect = {
+                    changedDate = it
+                })
 
-                var month =1
+
                 if (isMonthDialogOpen) {
                     MonthDialog(
                         currentDate = currentDate,
                         changedDate = changedDate,
                         onMonthSelected = {
-                            listener.dateChanged(currentDate.year, it, currentDate.dayOfMonth)
-                            changedDate = LocalDate.of(currentDate.year, it, currentDate.dayOfMonth)
-                            Log.d("datachange", "CalendarCustom: $changedDate")
+                            listener.dateChanged(changedDate.year, it, changedDate.dayOfMonth)
+                            changedDate = LocalDate.of(changedDate.year, it, changedDate.dayOfMonth)
                             isMonthDialogOpen = false
                         },
                         onDismissRequest = { isMonthDialogOpen = false },
@@ -273,8 +274,8 @@ class DiaryAdapter(
         @Composable
         fun CalendarPage(
             currentDate: LocalDate,
+            onSelect: (LocalDate) -> Unit,
         ) {
-            Log.d("diaryAdapter", "bind: CalendarPage() 실행")
             Column() {
                 var checkDate by remember { mutableStateOf(currentDate) } //선택된 날짜 넘김
                 var rowCnt = 0 //행수
@@ -347,6 +348,7 @@ class DiaryAdapter(
                                                 currentDate.month,
                                                 it
                                             )
+                                        onSelect(checkDate)
                                         listener.dateChanged(checkDate.year, checkDate.monthValue, checkDate.dayOfMonth)
                                     },
                                     emotion = null,
@@ -364,6 +366,7 @@ class DiaryAdapter(
                                                 currentDate.month,
                                                 it
                                             )
+                                        onSelect(checkDate)
                                         listener.dateChanged(checkDate.year, checkDate.monthValue, checkDate.dayOfMonth)
                                     },
                                     emotion = null,
@@ -386,7 +389,8 @@ class DiaryAdapter(
                                                 currentDate.month,
                                                 it
                                             )
-                                        listener.dateChanged(checkDate.year, checkDate.monthValue, checkDate.dayOfMonth)
+                                        onSelect(checkDate)
+                                        listener.dateChanged(checkDate.year, checkDate.monthValue, it)
                                     },
                                     emotion = emotionList[date - 1],
                                 )

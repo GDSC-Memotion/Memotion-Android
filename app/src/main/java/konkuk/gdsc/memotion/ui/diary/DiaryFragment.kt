@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.domain.entity.diary.DiarySimple
 import konkuk.gdsc.memotion.databinding.FragmentDiaryBinding
+import konkuk.gdsc.memotion.util.TAG
 import konkuk.gdsc.memotion.util.dpToPx
 import konkuk.gdsc.memotion.util.view.setOnSingleClickListener
 
@@ -101,7 +102,7 @@ class DiaryFragment
         cal.set(Calendar.MONTH, month)
         cal.set(Calendar.DATE, dayOfMonth)
         viewModel.changeCurrentDay(cal)
-        Log.d("datachange", "dateChanged: $year, $month, $dayOfMonth")
+        Log.d(TAG, "dateChanged: $year, $month, $dayOfMonth")
     }
 
     override fun deleteDiary(diaryId: Long) {

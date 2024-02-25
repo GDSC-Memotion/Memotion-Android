@@ -84,14 +84,12 @@ fun MonthDialog(
                                         month = monthList[month + i - 1],
                                         onClick = {
                                             onMonthSelected(month + i)
-                                            Log.d("monthDialog", "달력 클릭 감지 : ${month+i}")
                                         })
                                 } else {
                                     OutlinedButton(
                                         month = monthList[month + i - 1],
                                         onClick = {
                                             onMonthSelected(month + i)
-                                            Log.d("monthDialog", "달력 클릭 감지 : ${month+i}")
                                         })
                                 }
                             } else {
@@ -100,14 +98,12 @@ fun MonthDialog(
                                         month = monthList[month + i - 1],
                                         onClick = {
                                             onMonthSelected(month + i)
-                                            Log.d("monthDialog", "달력 클릭 감지 : ${month+i}")
                                         })
                                 } else {
                                     OutlinedButton(
                                         month = monthList[month + i - 1],
                                         onClick = {
                                             onMonthSelected(month + i)
-                                            Log.d("monthDialog", "달력 클릭 감지 : ${month+i}")
                                         })
                                 }
                             }
