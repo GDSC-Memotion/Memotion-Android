@@ -3,7 +3,7 @@ package konkuk.gdsc.memotion.domain.entity.emotion
 data class EmotionResult(
     val emotion: Emotion,
     val percentage: Float,
-    val isTitle: Boolean,
+    var isTitle: Boolean,
 ) {
     companion object {
         val sample: List<EmotionResult> = listOf(

@@ -51,8 +51,22 @@ data class ResponseGetDetailDiary(
             @SerialName("disgust")
             val disgust: Float,
         ) {
-            fun asEmotionResult(): List<EmotionResult> {
-                return EmotionResult.sample
+            fun asEmotionResult(titleEmotion: Emotion): List<EmotionResult> {
+                val emotions = listOf(
+                    EmotionResult(Emotion.ANGER, anger, false),
+                    EmotionResult(Emotion.DISGUST, disgust, false),
+                    EmotionResult(Emotion.FEAR, fear, false),
+                    EmotionResult(Emotion.JOY, joy, false),
+                    EmotionResult(Emotion.NEUTRAL, neutral, false),
+                    EmotionResult(Emotion.SADNESS, sadness, false),
+                    EmotionResult(Emotion.SURPRISE, surprise, false),
+                ).sortedBy {
+                    it.percentage
+                }
+                emotions.forEach {
+                    if(it.emotion == titleEmotion) it.isTitle = true
+                }
+                return emotions
             }
         }
 
@@ -74,7 +88,7 @@ data class ResponseGetDetailDiary(
                 imageUrls = imageUris,
                 content = description,
                 titleEmotion = titleEmotion,
-                emotions = analysisResult.asEmotionResult(),
+                emotions = analysisResult.asEmotionResult(titleEmotion),
                 youtubeUrl = youtubeUri,
                 youtubeMusicUrl = youtubeMusicUri,
             )
