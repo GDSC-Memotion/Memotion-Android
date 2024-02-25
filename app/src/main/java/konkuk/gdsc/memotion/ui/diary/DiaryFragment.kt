@@ -99,7 +99,7 @@ class DiaryFragment
     override fun dateChanged(year: Int, month: Int, dayOfMonth: Int) {
         val cal = Calendar.getInstance()
         cal.set(Calendar.YEAR, year)
-        cal.set(Calendar.MONTH, month)
+        cal.set(Calendar.MONTH, month-1)
         cal.set(Calendar.DATE, dayOfMonth)
         viewModel.changeCurrentDay(cal)
         Log.d(TAG, "dateChanged: $year, $month, $dayOfMonth")
