@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import konkuk.gdsc.memotion.domain.entity.user.User
 import konkuk.gdsc.memotion.util.TAG
-import konkuk.gdsc.memotion.util.VIEWMODEL
 
 class UserViewModel : ViewModel() {
     private val _profile = MutableLiveData<User>()
