@@ -215,6 +215,7 @@
                             android:layout_height="12dp"
                             android:layout_marginTop="6dp"
                             android:background="@drawable/shape_background_progress_indicator"
+                            android:visibility="gone"
                             app:layout_constraintEnd_toStartOf="@id/tv_diary_detail_percentage_number"
                             app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toEndOf="@id/tv_hidden_emotion"
@@ -232,12 +233,13 @@
 
                         <TextView
                             android:id="@+id/tv_diary_detail_percentage_number"
-                            android:layout_width="50dp"
+                            android:layout_width="52dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:fontFamily="@font/ubuntu_regular"
                             android:textColor="@color/black"
                             android:textSize="12sp"
+                            android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="@id/pv_diary_detail_percentage"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/pv_diary_detail_percentage"
