@@ -65,7 +65,10 @@ class DiaryAdapter(
         val binding: ItemDiaryBinding,
         private val context: Context,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: DiarySimple) {
+        fun bind(
+            item: DiarySimple,
+            dataSize: Int,
+            ) {
             binding.llcDiaryNull.visibility = View.GONE
             binding.clDiaryItem.visibility = View.VISIBLE
 
@@ -75,6 +78,12 @@ class DiaryAdapter(
             } else {
                 binding.vFirst.visibility = View.INVISIBLE
                 binding.vSecond.visibility = View.VISIBLE
+            }
+
+            if (this.layoutPosition == dataSize) {
+                binding.vDotLast.visibility = View.VISIBLE
+            } else {
+                binding.vDotLast.visibility = View.GONE
             }
 
             binding.diaryContent = item
@@ -565,7 +574,7 @@ class DiaryAdapter(
                 setDeleteDiaryListener(fragment as DiaryFragment)
                 val diaryViewHolder = holder as DiaryViewHolder
                 if (data.isNotEmpty()) {
-                    diaryViewHolder.bind(data[position - 1])
+                    diaryViewHolder.bind(data[position - 1], data.size)
                     diaryViewHolder.binding.llItemDiaryTrash.setOnClickListener {
                         listener.deleteDiary(data[position - 1].diaryId)
                         removeData(holder.layoutPosition)
