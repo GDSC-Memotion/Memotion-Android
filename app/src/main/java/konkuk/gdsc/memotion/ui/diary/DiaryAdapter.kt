@@ -586,8 +586,9 @@ class DiaryAdapter(
     }
 
     fun updateData(newData: List<DiarySimple>) {
+        val dataSize = if (data.size > newData.size) data.size else newData.size
         data = newData
-        notifyItemRangeChanged(1, newData.size)
+        notifyItemRangeChanged(1, dataSize)
     }
 
     interface DeleteDiaryListener {
