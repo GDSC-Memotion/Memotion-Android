@@ -51,7 +51,7 @@ class DiaryRepositoryImpl @Inject constructor(
     ): Result<ResponsePutDiary> {
         return runCatching {
             val diary = diary.asRequestPutDiary()
-            diaryApi.editDiary(diaryId, diary, newImages)
+            diaryApi.editDiary(diaryId, diary)//, newImages)
         }
     }
 

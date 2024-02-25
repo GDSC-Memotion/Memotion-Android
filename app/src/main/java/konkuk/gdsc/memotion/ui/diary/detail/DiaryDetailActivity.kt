@@ -1,17 +1,16 @@
 package konkuk.gdsc.memotion.ui.diary.detail
 
 import android.content.Intent
-import android.icu.util.Calendar
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.compose.ui.text.capitalize
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.skydoves.balloon.ArrowOrientation
 import com.skydoves.balloon.Balloon
@@ -23,9 +22,7 @@ import konkuk.gdsc.memotion.domain.entity.diary.DiaryDetail
 import konkuk.gdsc.memotion.databinding.ActivityDiaryDetailBinding
 import konkuk.gdsc.memotion.ui.diary.DiaryAdapter
 import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryActivity
-import konkuk.gdsc.memotion.util.TAG
-import konkuk.gdsc.memotion.util.calendarToString
-import konkuk.gdsc.memotion.util.dpToPx
+import java.util.Locale
 
 @AndroidEntryPoint
 class DiaryDetailActivity : AppCompatActivity() {
@@ -48,17 +45,13 @@ class DiaryDetailActivity : AppCompatActivity() {
             binding.apply {
                 tvDiaryDetailDate.text = it.date
                 if (it.imageUrls.isNotEmpty()) {
-                    Glide.with(this@DiaryDetailActivity)
-                        .load(it.imageUrls[0])
-                        .centerCrop()
-                        .into(ivDiaryDetailImage)
-                    ivDiaryDetailImage.visibility = View.VISIBLE
-                    ivDiaryDetailImage.layoutParams.height = resources.displayMetrics.widthPixels
+                    vpDiaryDetailImage.visibility = View.VISIBLE
+                    vpDiaryDetailImage.adapter = ImageAdapter(this@DiaryDetailActivity, it.imageUrls)
                 }
                 tvDiaryDetailContent.text = it.content
 
-                tvDiaryDetailEmotion.text = titleEmotion.emotion.toString()
-                tvHiddenEmotion.text = titleEmotion.emotion.toString()
+                tvDiaryDetailEmotion.text = titleEmotion.emotion.convertFirstUpper()
+//                tvHiddenEmotion.text = titleEmotion.emotion.convertFirstUpper()
 
                 ivDiaryDetailEmotion.setImageResource(
                     titleEmotion.emotion.getResource()
@@ -70,7 +63,7 @@ class DiaryDetailActivity : AppCompatActivity() {
                 rvDiaryDetailEmotionList.adapter = EmotionAdapter(it.emotions)
             }
             youtubeIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.youtubeUrl))
-            youtubeMusicIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.youtubeUrl))
+            youtubeMusicIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.youtubeMusicUrl))
         }
         viewModel.diary.observe(this, diaryObserver)
 
@@ -122,6 +115,7 @@ class DiaryDetailActivity : AppCompatActivity() {
         }
 
         trashButton.setOnClickListener {
+            viewModel.deleteDiary()
             balloon.dismiss()
             finish()
         }
@@ -133,13 +127,17 @@ class DiaryDetailActivity : AppCompatActivity() {
                 this@DiaryDetailActivity.getString(R.string.view_less)
             binding.llcDiaryDetailEmotionDetail.visibility = View.VISIBLE
             binding.tvHiddenEmotion.visibility = View.VISIBLE
-            binding.llDiaryDetailEmotion.visibility = View.GONE
+//            binding.llDiaryDetailEmotion.visibility = View.GONE
+            binding.pvDiaryDetailPercentage.visibility = View.GONE
+            binding.tvDiaryDetailPercentageNumber.visibility = View.GONE
         } else {
             binding.tvDiaryDetailEmotionViewmore.text =
                 this@DiaryDetailActivity.getString(R.string.view_more)
             binding.llcDiaryDetailEmotionDetail.visibility = View.GONE
             binding.tvHiddenEmotion.visibility = View.GONE
-            binding.llDiaryDetailEmotion.visibility = View.VISIBLE
+//            binding.llDiaryDetailEmotion.visibility = View.VISIBLE
+            binding.pvDiaryDetailPercentage.visibility = View.VISIBLE
+            binding.tvDiaryDetailPercentageNumber.visibility = View.VISIBLE
         }
     }
 

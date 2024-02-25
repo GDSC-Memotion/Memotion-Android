@@ -120,6 +120,9 @@ dependencies {
 
     // When using a AppCompat theme
     implementation("com.google.accompanist:accompanist-appcompat-theme:0.16.0")
+
+    val viewpager2_version = "1.0.0"
+    implementation("androidx.viewpager2:viewpager2:$viewpager2_version")
 }
 
 // Allow references to generated code

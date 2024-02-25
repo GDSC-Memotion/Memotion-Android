@@ -23,11 +23,17 @@
         android:paddingVertical="20dp">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cv_user_profile_image"
             android:layout_width="83dp"
             android:layout_height="83dp"
             android:outlineSpotShadowColor="@color/white"
-            app:cardCornerRadius="41dp" />
+            app:cardCornerRadius="41dp">
+
+            <ImageView
+                android:id="@+id/iv_user_profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/tv_user_name"
@@ -75,10 +81,10 @@
             android:layout_marginStart="7dp"
             android:background="@drawable/shape_reminder_text"
             android:enabled="false"
+            android:fontFamily="@font/ubuntu_regular"
             android:gravity="center"
             android:text="22:00"
             android:textColor="@drawable/selector_reminder_text"
-            android:fontFamily="@font/ubuntu_regular"
             android:textSize="12sp" />
 
         <View

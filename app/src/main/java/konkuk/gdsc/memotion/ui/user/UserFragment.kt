@@ -9,15 +9,23 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import konkuk.gdsc.memotion.R
 import konkuk.gdsc.memotion.braodcast.AlertReceiver
 import konkuk.gdsc.memotion.databinding.FragmentUserBinding
+import konkuk.gdsc.memotion.domain.entity.user.User
+import konkuk.gdsc.memotion.util.TAG
+import konkuk.gdsc.memotion.util.calendarToString
 import konkuk.gdsc.memotion.util.calendarToStringNoti
 
 
@@ -27,6 +35,20 @@ class UserFragment : Fragment() {
     private val binding: FragmentUserBinding
         get() = requireNotNull(_binding) { "UserFragment's binding is null" }
     private val viewModel: UserViewModel by viewModels()
+    private val requiredPermission = arrayOf(
+        Manifest.permission.POST_NOTIFICATIONS,
+        Manifest.permission.SCHEDULE_EXACT_ALARM
+    )
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { isGranteds: Map<String, Boolean> ->
+            for (permission in requiredPermission) {
+                if(isGranteds.get(permission) != true) {
+                    Log.d(TAG, "UserFragment - () called\n${permission} 허용안됨")
+                }
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,12 +61,42 @@ class UserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val calendar: Calendar = Calendar.getInstance()
+        val userObserver = Observer<User> {
+            binding.tvUserName.text = it.name
+            Glide.with(this)
+                .load(it.imageUrl)
+                .centerCrop()
+                .into(binding.ivUserProfileImage)
+        }
+
+        val notificationTimeObserver = Observer<Calendar> {
+            if (binding.sUserReminder.isChecked) {
+                Log.d(TAG, "UserFragment - onViewCreated() called\n변경됨")
+                cancelAlarm()
+                startAlarm(viewModel.notificationTime.value ?: Calendar.getInstance())
+            }
+            binding.tvUserReminderTime.text = calendarToStringNoti(it)
+        }
+
+        viewModel.profile.observe(viewLifecycleOwner, userObserver)
+        viewModel.notificationTime.observe(viewLifecycleOwner, notificationTimeObserver)
 
         binding.apply {
             sUserReminder.setOnCheckedChangeListener { compoundButton, b ->
                 if (b) {
-                    startAlarm(calendar)
+                    if (!checkPermission()) {
+                        Log.d(TAG, "UserFragment - onViewCreated() called\ncheckpermissoin 결과 실패")
+                        /*requireActivity().requestPermissions(
+                            arrayOf(
+                                Manifest.permission.POST_NOTIFICATIONS,
+                                Manifest.permission.SCHEDULE_EXACT_ALARM
+                            ), 200
+                        )*/
+                        requestPermissionLauncher.launch(requiredPermission)
+                        compoundButton.isChecked = false
+                        return@setOnCheckedChangeListener
+                    }
+                    startAlarm(viewModel.notificationTime.value ?: Calendar.getInstance())
                     tvUserReminderTime.isEnabled = true
                     tvUserReminderTitle.isEnabled = true
                     ivUserReminderImage.setImageResource(R.drawable.icon_bell)
@@ -56,21 +108,21 @@ class UserFragment : Fragment() {
                 }
             }
 
-            tvUserReminderTime.setOnClickListener{
-                val cal = Calendar.getInstance()
-
+            tvUserReminderTime.setOnClickListener {
                 val timeSetListener =
                     TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
-                        calendar.apply {
-                            set(Calendar.HOUR_OF_DAY, hour)
-                            set(Calendar.MINUTE, minute)
-                            set(Calendar.MILLISECOND, 0)
-                        }
-
-                        binding.tvUserReminderTime.text = calendarToStringNoti(calendar)
+                        viewModel.updateNotificationTime(hour, minute)
                     }
 
-                TimePickerDialog(context, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
+                val cal = Calendar.getInstance()
+
+                TimePickerDialog(
+                    context,
+                    timeSetListener,
+                    cal.get(Calendar.HOUR_OF_DAY),
+                    cal.get(Calendar.MINUTE),
+                    true
+                ).show()
             }
         }
     }
@@ -81,9 +133,14 @@ class UserFragment : Fragment() {
     }
 
     private fun startAlarm(c: Calendar) {
+        Log.d(TAG, "UserFragment - startAlarm() called\n알람 시작점\n${calendarToString(c)}")
         if (!checkPermission()) {
+            Log.d(TAG, "UserFragment - startAlarm() called\npermission 요청")
             requireActivity().requestPermissions(
-                arrayOf(Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.SCHEDULE_EXACT_ALARM), 200
+                arrayOf(
+                    Manifest.permission.POST_NOTIFICATIONS,
+                    Manifest.permission.SCHEDULE_EXACT_ALARM
+                ), 200
             )
             return
         }
@@ -101,6 +158,7 @@ class UserFragment : Fragment() {
         }
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
+        Log.d(TAG, "UserFragment - startAlarm() called\n알람 끝점")
     }
 
     private fun cancelAlarm() {
@@ -114,6 +172,7 @@ class UserFragment : Fragment() {
     }
 
     private fun checkPermission(): Boolean {
+        Log.d(TAG, "UserFragment - checkPermission() called")
         if (ActivityCompat.checkSelfPermission(
                 requireActivity(),
                 Manifest.permission.POST_NOTIFICATIONS
@@ -131,7 +190,4 @@ class UserFragment : Fragment() {
         return true
     }
 
-    companion object {
-        const val INTENT_TIME = "time"
-    }
 }

@@ -1,6 +1,7 @@
 package konkuk.gdsc.memotion.domain.entity.emotion
 
 import konkuk.gdsc.memotion.R
+import java.util.Locale
 
 enum class Emotion(val number: Int) {
     ANGER(0),
@@ -21,6 +22,15 @@ enum class Emotion(val number: Int) {
             SADNESS -> R.drawable.icon_emoji_sadness
             SURPRISE -> R.drawable.icon_emoji_surprise
         }
+    }
+
+    fun convertFirstUpper(): String {
+        return this.toString().lowercase()
+            .replaceFirstChar {
+                if (it.isLowerCase()) it.titlecase(
+                    Locale.ENGLISH
+                ) else it.toString()
+            }
     }
 
     //Emotion.ANGER.toString().toLowerCase() -> anger 출력 가능

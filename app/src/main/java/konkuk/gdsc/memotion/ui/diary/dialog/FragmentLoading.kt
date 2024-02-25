@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.databinding.FragmentLoadingBinding
 import konkuk.gdsc.memotion.domain.entity.emotion.Emotion
+import konkuk.gdsc.memotion.ui.diary.create.DiaryVersion
 import konkuk.gdsc.memotion.ui.diary.create.WritingDiaryViewModel
 import konkuk.gdsc.memotion.util.TAG
 
@@ -42,7 +43,18 @@ class FragmentLoading(
         }
         viewModel.emotionResult.observe(viewLifecycleOwner, emotionObserver)
 
-        viewModel.postDiary()
+
+        when (viewModel.version.value) {
+            DiaryVersion.WRITING -> {
+                Log.d(TAG, "FragmentLoading - onViewCreated() called\nwriting")
+                viewModel.postDiary()
+            }
+            DiaryVersion.EDITING -> {
+                Log.d(TAG, "FragmentLoading - onViewCreated() called\nediting")
+                viewModel.editDiary()
+            }
+            null -> Log.d(TAG, "FragmentLoading - onViewCreated() called\nnull")
+        }
 
         /*Handler(Looper.getMainLooper()).postDelayed({
             loading()

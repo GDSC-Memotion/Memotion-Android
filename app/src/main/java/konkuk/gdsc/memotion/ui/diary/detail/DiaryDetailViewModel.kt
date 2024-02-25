@@ -33,4 +33,16 @@ class DiaryDetailViewModel @Inject constructor(
                 }
         }
     }
+
+    fun deleteDiary() {
+        viewModelScope.launch {
+            diaryRepository.deleteDiary(diary.value?.diaryId ?: 0)
+                .onSuccess {
+                    Log.d(NETWORK, "DiaryDetailViewModel - deleteDiary() called\nsuccess")
+                }
+                .onFailure {
+                    Log.d(NETWORK, "DiaryDetailViewModel - deleteDiary() called\nfailed\nbecause${it}")
+                }
+        }
+    }
 }
