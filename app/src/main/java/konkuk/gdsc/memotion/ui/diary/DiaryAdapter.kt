@@ -477,9 +477,9 @@ class DiaryAdapter(
                 if (data.isNotEmpty()) {
                     diaryViewHolder.bind(data[position - 1])
                     diaryViewHolder.binding.llItemDiaryTrash.setOnClickListener {
-//                        removeData(holder.layoutPosition)
-                        notifyDataSetChanged()
                         listener.deleteDiary(data[position - 1].diaryId)
+                        removeData(holder.layoutPosition)
+//                        notifyDataSetChanged()
                     }
                 } else {
                     diaryViewHolder.bindEmpty()
