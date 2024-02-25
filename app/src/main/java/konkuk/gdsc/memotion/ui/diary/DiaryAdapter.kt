@@ -58,7 +58,7 @@ class DiaryAdapter(
     private val listener: DeleteDiaryListener
         get() = requireNotNull(_listener) { "DiaryAdapter's DeleteDiaryListener is null" }
 
-    private var emotionList1 = listOf("","","","","","","","","","","","","","","","","","","","","","","","","","","","","","")
+    private var emotionList1 = listOf("","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","")
 
     class DiaryViewHolder(
         val binding: ItemDiaryBinding,
@@ -585,7 +585,7 @@ class DiaryAdapter(
 
     fun updateMonth(emotions: List<String>) {
         Log.d("로그", "updateMonth 전: $emotionList1 , $emotions")
-        //emotionList1 = emotions
+        emotionList1 = emotions
         Log.d("로그", "updateMonth 후: $emotionList1 , $emotions")
     }
 

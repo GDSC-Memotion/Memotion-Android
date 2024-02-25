@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
 import konkuk.gdsc.memotion.domain.entity.diary.DiarySimple
@@ -37,12 +38,12 @@ class DiaryFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        var i = 0
         val diaryAdapter = DiaryAdapter(requireActivity(), DiarySimple.sample, this)
 
         val currentDayObserver = Observer<Calendar> {
             viewModel.getDailyDiary(dayConverter.format(viewModel.currentDay.value))
-            viewModel.getMonthlyDiary(monthConverter.format(viewModel.currentDay.value))
+            //viewModel.getMonthlyDiary(monthConverter.format(viewModel.currentDay.value))
         }
         val monthlyDiaryObserver = Observer<List<String>> {
 //            var emotions = viewModel.getMonthlyDiary(monthConverter.format(viewModel.currentDay.value))
@@ -50,7 +51,11 @@ class DiaryFragment
 //            if (emotions != null) {
 //                diaryAdapter.updateMonth(emotions)
 //            }
-            diaryAdapter.updateMonth(it)
+            Log.d(TAG, "onViewCreated: $it")
+            if (i!=0) {
+                diaryAdapter.updateMonth(it)
+            }
+            i++
         }
         val dailyDiaryObserver = Observer<List<DiarySimple>> {
             diaryAdapter.updateData(it)
@@ -120,5 +125,6 @@ class DiaryFragment
         cal.set(Calendar.YEAR, year)
         cal.set(Calendar.MONTH, month-1)
         cal.set(Calendar.DATE, dayOfMonth)
+        //viewModel.changeMonthlyDiary(cal)
     }
 }

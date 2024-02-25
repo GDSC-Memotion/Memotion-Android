@@ -84,6 +84,4 @@ class DiaryViewModel @Inject constructor(
                 }
         }
     }
-
-
 }
