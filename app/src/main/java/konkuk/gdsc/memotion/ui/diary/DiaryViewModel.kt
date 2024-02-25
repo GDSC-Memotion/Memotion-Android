@@ -37,6 +37,10 @@ class DiaryViewModel @Inject constructor(
         _currentDay.value = cal
     }
 
+    fun changeMonthlyDiary(cal: Calendar): List<String>? {
+        return monthlyDiary.value
+    }
+
     fun getDailyDiary(date: String) {
 //        _dailyDiary.value = DiarySimple.sample    // for test
         viewModelScope.launch {
@@ -53,15 +57,18 @@ class DiaryViewModel @Inject constructor(
         }
     }
 
-    fun getMonthlyDiary(period: String) {
+    fun getMonthlyDiary(period: String){
         viewModelScope.launch {
             diaryRepository.getMonthlyDiary(period)
                 .onSuccess {
+                    Log.d(NETWORK, "getMonthlyDiary: $period")
                     Log.d(NETWORK, "DiaryViewModel - getMonthlyDiary() called\nsuccess")
                     _monthlyDiary.value = it.result.emotions
+                    Log.d(NETWORK, "getMonthlyDiary: ${_monthlyDiary.value}")
                 }
                 .onFailure {
-                    Log.d(NETWORK, "DiaryViewModel - getMonthlyDiary() called\nfailed")
+                    Log.d(NETWORK, "DiaryViewModel - getMonthlyDiary() called\nfailed $it $period")
+
                 }
         }
     }

@@ -42,9 +42,15 @@ class DiaryFragment
 
         val currentDayObserver = Observer<Calendar> {
             viewModel.getDailyDiary(dayConverter.format(viewModel.currentDay.value))
+            viewModel.getMonthlyDiary(monthConverter.format(viewModel.currentDay.value))
         }
         val monthlyDiaryObserver = Observer<List<String>> {
-            //viewModel.getMonthlyDiary()
+//            var emotions = viewModel.getMonthlyDiary(monthConverter.format(viewModel.currentDay.value))
+//            Log.d(TAG, "onViewCreated: $emotions")
+//            if (emotions != null) {
+//                diaryAdapter.updateMonth(emotions)
+//            }
+            diaryAdapter.updateMonth(it)
         }
         val dailyDiaryObserver = Observer<List<DiarySimple>> {
             diaryAdapter.updateData(it)
@@ -107,5 +113,12 @@ class DiaryFragment
 
     override fun deleteDiary(diaryId: Long) {
         viewModel.deleteDiary(diaryId)
+    }
+
+    override fun monthChanged(year: Int, month: Int, dayOfMonth: Int) {
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.YEAR, year)
+        cal.set(Calendar.MONTH, month-1)
+        cal.set(Calendar.DATE, dayOfMonth)
     }
 }
