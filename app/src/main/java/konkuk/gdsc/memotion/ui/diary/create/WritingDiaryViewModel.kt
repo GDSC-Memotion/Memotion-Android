@@ -33,6 +33,9 @@ class WritingDiaryViewModel @Inject constructor(
     private val _emotionResult = MutableLiveData<Emotion>()
     val emotionResult: LiveData<Emotion> = _emotionResult
 
+    private val _diaryId = MutableLiveData<Long>()
+    val diaryId: LiveData<Long> = _diaryId
+
     init {
         _version.value = DiaryVersion.WRITING
         _diaryData.value = DiaryWriting(
@@ -51,6 +54,7 @@ class WritingDiaryViewModel @Inject constructor(
                 .onSuccess {
                     Log.d(NETWORK, "WritingDiaryViewModel - postDiary() called\nsuccess")
                     _emotionResult.value = when (it.result.emotion.uppercase(Locale.getDefault())) {
+                        "ANGER" -> Emotion.ANGER
                         "DISGUST" -> Emotion.DISGUST
                         "FEAR" -> Emotion.FEAR
                         "JOY" -> Emotion.JOY
@@ -92,6 +96,7 @@ class WritingDiaryViewModel @Inject constructor(
     }
 
     fun setEditingDiaryData(diaryId: Long) {
+        _diaryId.value = diaryId
         viewModelScope.launch {
             diaryRepository.getDetailDiary(diaryId)
                 .onSuccess {
