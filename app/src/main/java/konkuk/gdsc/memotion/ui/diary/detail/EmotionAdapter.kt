@@ -15,7 +15,7 @@ class EmotionAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: EmotionResult) {
             binding.apply {
-                tvItemEmotionTitle.text = item.emotion.toString()
+                tvItemEmotionTitle.text = item.emotion.convertFirstUpper()
                 tvItemEmotionPercentageNumber.text = "${String.format("%.2f", item.percentage)} %"
 
                 pvItemEmotionPercentage.progress = item.percentage * 100

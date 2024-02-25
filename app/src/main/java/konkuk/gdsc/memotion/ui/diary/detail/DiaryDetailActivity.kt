@@ -47,8 +47,8 @@ class DiaryDetailActivity : AppCompatActivity() {
                 }
                 tvDiaryDetailContent.text = it.content
 
-                tvDiaryDetailEmotion.text = titleEmotion.emotion.toString()
-                tvHiddenEmotion.text = titleEmotion.emotion.toString()
+                tvDiaryDetailEmotion.text = titleEmotion.emotion.convertFirstUpper()
+//                tvHiddenEmotion.text = titleEmotion.emotion.convertFirstUpper()
 
                 ivDiaryDetailEmotion.setImageResource(
                     titleEmotion.emotion.getResource()
