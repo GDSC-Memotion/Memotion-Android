@@ -23,7 +23,7 @@ data class DiaryWithImage(
     fun asRequestPutDiary(): RequestPutDiary {
         return RequestPutDiary(
             description = content,
-            imageUris = imageUris
+//            imageUris = imageUris
         )
     }
 }

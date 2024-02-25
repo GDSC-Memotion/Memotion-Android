@@ -7,6 +7,6 @@ import kotlinx.serialization.Serializable
 data class RequestPutDiary(
     @SerialName("description")
     val description: String,
-    @SerialName("imageUris")
-    val imageUris: List<String>,
+//    @SerialName("imageUris")
+//    val imageUris: List<String>,
 )
